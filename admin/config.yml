@@ -1,21 +1,15 @@
-# The backend specifies how Netlify CMS connects to your repository.
 backend:
   name: git-gateway
-  branch: main # The branch to publish changes to
+  branch: main
 
-# This is where uploaded images will be stored in your project.
 media_folder: "assets/images/uploads"
-# This is the public URL path for the images.
 public_folder: "/assets/images/uploads"
 
-# We will start with just ONE simple collection to ensure it loads.
 collections:
-  - name: "properties" # The internal name
-    label: "Properties" # The name you see in the admin panel
-    folder: "content/properties" # Where to save the files
-    create: true # Allow creating new properties
-    slug: "{{slug}}" # Filename will be based on the title
-    fields: # The fields for each property
-      - {label: "Property Name", name: "title", widget: "string"}
-      - {label: "Main Image", name: "image", widget: "image"}
-      - {label: "Description", name: "body", widget: "markdown"}
+  - name: "test_collection"
+    label: "Test Collection"
+    folder: "content/test"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - {label: "Title", name: "title", widget: "string"}
