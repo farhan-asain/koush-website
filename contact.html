@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us | Koush Contracting</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <script src="js/script.js" defer></script>
+</head>
+<body>
+
+    <header class="header header-scrolled">
+        <nav class="navbar container">
+            <a href="index.html" class="logo"><img src="assets/images/koush_logo.png" alt="Koush Contracting Logo"></a>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="index.html#home" class="nav-link">Home</a></li>
+                <li class="nav-item"><a href="index.html#services" class="nav-link">Offers</a></li>
+                <li class="nav-item"><a href="index.html#projects" class="nav-link">Projects</a></li>
+                <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
+                <li class="nav-item"><a href="buy.html" class="nav-link cta cta-secondary">BUY</a></li>
+                <li class="nav-item"><a href="contact.html" class="nav-link cta cta-primary"><span>Contact Us</span></a></li>
+            </ul>
+            <div class="hamburger"><span class="bar"></span><span class="bar"></span><span class="bar"></span></div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="contact-page section">
+            <div class="container">
+                <div class="page-header"><h1 class="page-title">Contact Us</h1><p class="page-subtitle">We're ready to build your vision. Reach out to us for a consultation.</p></div>
+                <div class="contact-content-grid">
+                    <div class="contact-form-container">
+                        <h3 class="contact-heading">Send a Message</h3>
+                        <form class="contact-form" action="https://formspree.io/f/YOUR_UNIQUE_ID" method="POST">
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label for="name" class="visually-hidden">Your Name</label>
+                                    <input type="text" id="name" name="name" placeholder="Your Name" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="email" class="visually-hidden">Your Email</label>
+                                    <input type="email" id="email" name="email" placeholder="Your Email" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="concern" class="visually-hidden">Select Concern</label>
+                                    <select id="concern" name="concern" required>
+                                        <option value="" disabled selected>Select Concern</option>
+                                        <option value="quote">Project Quote</option>
+                                        <option value="partnership">Partnership Inquiry</option>
+                                        <option value="general">General Information</option>
+                                        <option value="other">Other</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="phone" class="visually-hidden">Phone Number</label>
+                                    <input type="tel" id="phone" name="phone" placeholder="Phone Number">
+                                </div>
+                                <div class="form-group">
+                                    <label for="emirate" class="visually-hidden">Select Emirate</label>
+                                    <select id="emirate" name="emirate" required>
+                                        <option value="" disabled selected>Select Emirate</option>
+                                        <option value="Abu Dhabi">Abu Dhabi</option>
+                                        <option value="Ajman">Ajman</option>
+                                        <option value="Dubai">Dubai</option>
+                                        <option value="Fujairah">Fujairah</option>
+                                        <option value="Ras Al Khaimah">Ras Al Khaimah</option>
+                                        <option value="Sharjah">Sharjah</option>
+                                        <option value="Umm Al Quwain">Umm Al Quwain</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="city" class="visually-hidden">City</label>
+                                    <input type="text" id="city" name="city" placeholder="City">
+                                </div>
+                                <div class="form-group full-width">
+                                    <label for="message" class="visually-hidden">Your Message</label>
+                                    <textarea id="message" name="message" placeholder="Your Message" rows="6" required></textarea>
+                                </div>
+                                <div class="form-group full-width">
+                                    <button type="submit" class="btn">Send Message</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="contact-info-container">
+                        <h3 class="contact-heading">Our Office</h3><h4 class="office-name">Koush Real Estate</h4>
+                        <div class="map-placeholder"><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3606.8821932402446!2d55.4851253753856!3d25.30800317764049!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e5f5f03394d33a7%3A0x6b44737a2e58454b!2sSheikh%20Ammar%20Bin%20Humaid%20St%20-%20Al%20Mowaihat%202%20-%20Ajman!5e0!3m2!1sen!2sae!4v1689682548234!5m2!1sen!2sae" width="100%" height="250" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></div>
+                        <ul class="contact-details"><li><ion-icon name="location-sharp"></ion-icon><a href="https://goo.gl/maps/bY3zT1v8v4jK8y7n9" target="_blank" rel="noopener noreferrer">Ajman, Sheikh Ammar Street, Al Mowaihat 2</a></li><li><ion-icon name="call"></ion-icon><a href="tel:+971508686995">+971 50868 6995</a></li><li><ion-icon name="mail"></ion-icon><a href="mailto:info@koush.ae">info@koush.ae</a></li></ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <footer class="footer">
+        <div class="container footer-grid">
+            <div class="footer-col footer-col-about"><a href="index.html" class="footer-logo"><img src="assets/images/koush_logo.png" alt="Koush Contracting Logo"></a><p class="footer-about">Building the future with precision and passion. Your trusted partner for all construction needs.</p></div>
+            <div class="footer-col">
+                <h4 class="footer-heading">Quick Links</h4>
+                <ul class="footer-links"><li><a href="index.html#home">Home</a></li><li><a href="index.html#services">Offers</a></li><li><a href="index.html#projects">Our Work</a></li><li><a href="about.html">About</a></li><li><a href="contact.html">Contact</a></li></ul>
+            </div>
+            <div class="footer-col">
+                <h4 class="footer-heading">Contact Us</h4>
+                <ul class="footer-contact">
+                    <li><ion-icon name="location-outline"></ion-icon><span>Ajman, Sheikh Ammar Street, Al Mowaihat 2</span></li>
+                    <li><ion-icon name="call-outline"></ion-icon><a href="tel:+971508686995">+971 50868 6995</a></li>
+                    <li><ion-icon name="mail-outline"></ion-icon><a href="mailto:info@koush.ae">info@koush.ae</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4 class="footer-heading">Follow Us</h4>
+                <div class="social-links">
+                    <a href="https://www.facebook.com/people/%D9%83%D9%88%D8%B4-%D9%84%D9%84%D8%B9%D9%82%D8%A7%D8%B1%D8%A7%D8%AA-Koush-Real-Estate/61557055146396/" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><ion-icon name="logo-facebook"></ion-icon></a>
+                    <a href="https://www.instagram.com/koush515/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><ion-icon name="logo-instagram"></ion-icon></a>
+                    <a href="https://www.youtube.com/@koushREALESTATE" target="_blank" rel="noopener noreferrer" aria-label="YouTube"><ion-icon name="logo-youtube"></ion-icon></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom"><div class="container"><p class="copyright">© <span id="year"></span> Koush Real Estate. All Rights Reserved.</p></div></div>
+    </footer>
+
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</body>
+</html>

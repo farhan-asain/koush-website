@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buy Properties | Koush Real Estate</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <script src="js/script.js" defer></script>
+</head>
+<body>
+
+    <header class="header header-scrolled">
+        <nav class="navbar container">
+            <a href="index.html" class="logo"><img src="assets/images/koush_logo.png" alt="Koush Contracting Logo"></a>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="index.html#home" class="nav-link">Home</a></li>
+                <li class="nav-item"><a href="index.html#services" class="nav-link">Offers</a></li>
+                <li class="nav-item"><a href="index.html#projects" class="nav-link">Projects</a></li>
+                <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
+                <li class="nav-item"><a href="buy.html" class="nav-link cta cta-secondary">BUY</a></li>
+                <li class="nav-item"><a href="contact.html" class="nav-link cta cta-primary"><span>Contact Us</span></a></li>
+            </ul>
+            <div class="hamburger"><span class="bar"></span><span class="bar"></span><span class="bar"></span></div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="buy-page-header section">
+            <div class="container">
+                <div class="page-header">
+                    <h1 class="page-title">Find Your Future Property</h1>
+                    <p class="page-subtitle">Use our advanced filters to find the perfect property that matches your dreams.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- FILTERS SECTION -->
+        <section class="filter-section bg-light">
+            <div class="container">
+                <form class="filter-bar-container" id="property-filters">
+                    <div class="filter-item search-bar-wrapper">
+                        <ion-icon name="search-outline"></ion-icon>
+                        <input type="search" id="filter-search" placeholder="Search by Project Name, Area...">
+                    </div>
+                    <div class="filter-item">
+                        <select id="filter-price">
+                            <option value="">Price Range (AED)</option>
+                            <option value="0-1000000">0 - 1,000,000</option>
+                            <option value="1000000-3000000">1,000,000 - 3,000,000</option>
+                            <option value="3000000-5000000">3,000,000 - 5,000,000</option>
+                            <option value="5000000-999999999">5,000,000+</option>
+                        </select>
+                    </div>
+                    <div class="filter-item">
+                        <select id="filter-location">
+                            <option value="">Location</option>
+                            <option value="Dubai Marina">Dubai Marina</option>
+                            <option value="Downtown Dubai">Downtown Dubai</option>
+                            <option value="Al Mowaihat 2">Al Mowaihat 2</option>
+                        </select>
+                    </div>
+                    <div class="filter-item">
+                         <select id="filter-delivery">
+                            <option value="">Delivery Date</option>
+                            <option value="ready">Ready Now</option>
+                            <option value="off-plan">Off-Plan</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <!-- PROPERTY LISTINGS SECTION -->
+        <section class="property-listings-section section">
+            <div class="container">
+                <div class="listings-container" id="listings-container">
+
+                    <!-- Property Card 1 -->
+                    <div class="property-card" data-name="luxury waterfront villa" data-price="6200000" data-location="Dubai Marina" data-delivery="ready">
+                        <div class="property-card-image">
+                            <img src="assets/images/waterfront_villa.jpg" alt="Luxury Waterfront Villa">
+                            <span class="status-badge ready">Ready to Move</span>
+                        </div>
+                        <div class="property-card-details">
+                            <h3>Luxury Waterfront Villa</h3>
+                            <p class="location-spec"><ion-icon name="location-outline"></ion-icon> Dubai Marina, Dubai</p>
+                            <ul class="property-stats">
+                                <li><ion-icon name="bed-outline"></ion-icon> 4 Beds</li>
+                                <li><ion-icon name="water-outline"></ion-icon> 5 Baths</li>
+                                <li><ion-icon name="cube-outline"></ion-icon> 4,500 sqft</li>
+                            </ul>
+                            <p class="property-description">An exquisite villa offering breathtaking marina views, private pool, and unparalleled luxury finishes. Perfect for families seeking an elite lifestyle.</p>
+                            <div class="price-and-cta">
+                                <div class="price">AED 6,200,000</div>
+                                <a href="#" class="btn property-btn">View Details</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Property Card 2 -->
+                    <div class="property-card" data-name="modern downtown apartment" data-price="2500000" data-location="Downtown Dubai" data-delivery="off-plan">
+                        <div class="property-card-image">
+                            <img src="assets/images/downtown_apartment.jpg" alt="Modern Downtown Apartment">
+                             <span class="status-badge off-plan">Off-Plan</span>
+                        </div>
+                        <div class="property-card-details">
+                            <h3>Modern Downtown Apartment</h3>
+                            <p class="location-spec"><ion-icon name="location-outline"></ion-icon> Downtown Dubai, Dubai</p>
+                            <ul class="property-stats">
+                                <li><ion-icon name="bed-outline"></ion-icon> 2 Beds</li>
+                                <li><ion-icon name="water-outline"></ion-icon> 2 Baths</li>
+                                <li><ion-icon name="cube-outline"></ion-icon> 1,800 sqft</li>
+                            </ul>
+                            <p class="property-description">A chic apartment in the heart of the city, steps away from world-class shopping and dining. Features smart home technology and premium amenities.</p>
+                             <div class="price-and-cta">
+                                <div class="price">AED 2,500,000</div>
+                                <a href="#" class="btn property-btn">View Details</a>
+                            </div>
+                        </div>
+                    </div>
+
+                     <!-- Property Card 3 -->
+                    <div class="property-card" data-name="coastal tower residence" data-price="1150000" data-location="Al Mowaihat 2" data-delivery="ready">
+                        <div class="property-card-image">
+                            <img src="assets/images/coastal_tower.jpg" alt="Coastal Tower Residence">
+                            <span class="status-badge ready">Ready to Move</span>
+                        </div>
+                        <div class="property-card-details">
+                            <h3>Coastal Tower Residence</h3>
+                            <p class="location-spec"><ion-icon name="location-outline"></ion-icon> Al Mowaihat 2, Ajman</p>
+                            <ul class="property-stats">
+                                <li><ion-icon name="bed-outline"></ion-icon> 3 Beds</li>
+                                <li><ion-icon name="water-outline"></ion-icon> 3 Baths</li>
+                                <li><ion-icon name="cube-outline"></ion-icon> 2,100 sqft</li>
+                            </ul>
+                            <p class="property-description">Spacious and bright family apartment with panoramic city views and easy access to main highways. Excellent value and modern living combined.</p>
+                            <div class="price-and-cta">
+                                <div class="price">AED 1,150,000</div>
+                                <a href="#" class="btn property-btn">View Details</a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- Message for when no properties match -->
+                <div id="no-results-message" style="display: none;">
+                    <h3>No properties match your current filters.</h3>
+                    <p>Please try adjusting your search criteria.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container footer-grid">
+            <div class="footer-col footer-col-about"><a href="index.html" class="footer-logo"><img src="assets/images/koush_logo.png" alt="Koush Contracting Logo"></a><p class="footer-about">Building the future with precision and passion. Your trusted partner for all construction needs.</p></div>
+            <div class="footer-col">
+                <h4 class="footer-heading">Quick Links</h4>
+                <ul class="footer-links"><li><a href="index.html#home">Home</a></li><li><a href="index.html#services">Offers</a></li><li><a href="index.html#projects">Our Work</a></li><li><a href="about.html">About</a></li><li><a href="contact.html">Contact</a></li></ul>
+            </div>
+            <div class="footer-col">
+                <h4 class="footer-heading">Contact Us</h4>
+                <ul class="footer-contact">
+                    <li><ion-icon name="location-outline"></ion-icon><span>Ajman, Sheikh Ammar Street, Al Mowaihat 2</span></li>
+                    <li><ion-icon name="call-outline"></ion-icon><a href="tel:+971508686995">+971 50868 6995</a></li>
+                    <li><ion-icon name="mail-outline"></ion-icon><a href="mailto:info@koush.ae">info@koush.ae</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4 class="footer-heading">Follow Us</h4>
+                <div class="social-links">
+                    <a href="https://www.facebook.com/people/%D9%83%D9%88%D8%B4-%D9%84%D9%84%D8%B9%D9%82%D8%A7%D8%B1%D8%A7%D8%AA-Koush-Real-Estate/61557055146396/" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><ion-icon name="logo-facebook"></ion-icon></a>
+                    <a href="https://www.instagram.com/koush515/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><ion-icon name="logo-instagram"></ion-icon></a>
+                    <a href="https://www.youtube.com/@koushREALESTATE" target="_blank" rel="noopener noreferrer" aria-label="YouTube"><ion-icon name="logo-youtube"></ion-icon></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom"><div class="container"><p class="copyright">© <span id="year"></span> Koush Real Estate. All Rights Reserved.</p></div></div>
+    </footer>
+
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</body>
+</html>
