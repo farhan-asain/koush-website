@@ -30,16 +30,12 @@ img { max-width: 100%; height: auto; display: block; }
 
 /* === GLOBAL LAYOUT === */
 main { padding-top: var(--header-height); }
-.hero { margin-top: calc(-1 * var(--header-height)); height: 100vh; }
-.container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
-.section { padding: 80px 0; }
-
-/* --- SPACING FIX FOR FOOTER --- */
-/* This ensures the last section on any page has space above the footer. */
 main > .section:last-of-type {
     padding-bottom: 80px;
 }
-
+.hero { margin-top: calc(-1 * var(--header-height)); height: 100vh; }
+.container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+.section { padding: 80px 0; }
 .section-title { font-size: 2.5rem; color: var(--secondary-color); text-align: center; margin-bottom: 60px; }
 .bg-light { background-color: var(--light-bg-color); }
 .btn { display: inline-block; background-color: var(--primary-color); color: var(--light-text-color); padding: 12px 25px; border-radius: 5px; font-weight: 600; transition: all 0.3s ease; border: none; cursor: pointer; }
@@ -68,7 +64,6 @@ main > .section:last-of-type {
     text-shadow: none;
     font-weight: 600;
 }
-
 /* Primary CTA: Green, Rounded (for Contact Us) */
 .cta-primary {
     padding: 8px 18px; /* Smaller padding */
@@ -88,7 +83,6 @@ main > .section:last-of-type {
 .cta-primary:hover span {
     color: var(--buy-btn-color) !important;
 }
-
 /* Secondary CTA: Gold, Rectangular (for BUY) */
 .cta-secondary {
     padding: 10px 20px; /* Larger padding */
@@ -107,11 +101,11 @@ main > .section:last-of-type {
 .bar { display: block; width: 25px; height: 3px; margin: 5px auto; background-color: var(--light-text-color); transition: all 0.3s ease-in-out; }
 .header.header-scrolled .bar { background-color: var(--secondary-color); }
 
-/* === HERO SECTION & OTHER PAGE STYLES === */
+/* === HERO SECTION === */
 .hero { position: relative; display: flex; align-items: center; justify-content: center; color: var(--light-text-color); text-align: center; overflow: hidden; }
 .hero::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)); z-index: 1; }
 .hero-content { position: relative; z-index: 2; }
-.hero-slideshow { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; }
+.hero-slideshow { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; list-style: none; }
 .hero-slideshow li { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 1.5s ease-in-out; }
 .hero-slideshow li.active { opacity: 1; }
 .hero-slideshow li img { width: 100%; height: 100%; object-fit: cover; }
@@ -212,7 +206,7 @@ main > .section:last-of-type {
 .property-card-image img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
 .property-card:hover .property-card-image img { transform: scale(1.05); }
 .status-badge { position: absolute; top: 20px; left: 20px; padding: 5px 12px; border-radius: 50px; color: #fff; font-weight: 600; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.5px; }
-.status-badge.ready { background-color: var(--buy-btn-color); }
+.status-badge.ready, .status-badge.ready-to-move { background-color: var(--buy-btn-color); }
 .status-badge.off-plan { background-color: var(--primary-color); }
 .property-card-details { flex: 1; padding: 30px; display: flex; flex-direction: column; }
 .property-card-details h3 { font-size: 1.8rem; color: var(--secondary-color); margin-bottom: 5px; }

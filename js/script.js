@@ -115,12 +115,29 @@ document.addEventListener('DOMContentLoaded', () => {
         yearSpan.textContent = new Date().getFullYear();
     }
 
-    // --- DYNAMIC CONTENT LOADER & FILTERING ---
-    const listingsContainer = document.getElementById('js-listings-container');
-    const filterForm = document.getElementById('js-property-filters');
+    // --- DYNAMIC CONTENT LOADER ---
+    async function loadHomepageContent() {
+        if (document.getElementById('welcome-title')) {
+            try {
+                const response = await fetch('/content/homepage.json');
+                const data = await response.json();
+                document.getElementById('welcome-title').textContent = data.welcome_title;
+                document.getElementById('welcome-subheading').textContent = data.welcome_subheading;
+                document.getElementById('welcome-text').innerHTML = marked.parse(data.welcome_text);
+            } catch (error) {
+                console.log("Homepage content not yet available.");
+            }
+        }
+    }
+    
+    // --- PROPERTY PAGE DYNAMIC CONTENT AND FILTERING ---
+    async function loadAndFilterProperties() {
+        const listingsContainer = document.getElementById('js-listings-container');
+        const filterForm = document.getElementById('js-property-filters');
 
-    if (listingsContainer && filterForm) {
-        let allPropertyData = [];
+        if (!listingsContainer || !filterForm) return;
+
+        let allPropertyData = []; 
 
         function renderProperties(propertiesToRender) {
             const noResultsMessage = document.getElementById('js-no-results-message');
@@ -128,6 +145,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (propertiesToRender.length === 0) {
                 noResultsMessage.style.display = 'block';
+                if(allPropertyData.length > 0) {
+                    // Show this only if there are properties but none match filters
+                    noResultsMessage.innerHTML = '<h3>No properties match your current filters.</h3><p>Please try adjusting your search criteria.</p>';
+                } else {
+                    // Show this if no properties are loaded at all
+                    noResultsMessage.innerHTML = '<p>No properties found. Please go to the admin panel, create a property, and publish it.</p>';
+                }
                 return;
             }
             noResultsMessage.style.display = 'none';
@@ -185,4 +209,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         fetchProperties();
     }
-};
+
+    loadHomepageContent();
+    loadAndFilterProperties();
+});
