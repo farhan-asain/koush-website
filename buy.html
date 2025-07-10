@@ -40,13 +40,13 @@
         <!-- FILTERS SECTION -->
         <section class="filter-section bg-light">
             <div class="container">
-                <form class="filter-bar-container" id="property-filters">
+                <form class="filter-bar-container" id="js-property-filters">
                     <div class="filter-item search-bar-wrapper">
                         <ion-icon name="search-outline"></ion-icon>
-                        <input type="search" id="filter-search" placeholder="Search by Project Name, Area...">
+                        <input type="search" id="js-filter-search" placeholder="Search by Project Name, Area...">
                     </div>
                     <div class="filter-item">
-                        <select id="filter-price">
+                        <select id="js-filter-price">
                             <option value="">Price Range (AED)</option>
                             <option value="0-1000000">0 - 1,000,000</option>
                             <option value="1000000-3000000">1,000,000 - 3,000,000</option>
@@ -55,7 +55,7 @@
                         </select>
                     </div>
                     <div class="filter-item">
-                        <select id="filter-location">
+                        <select id="js-filter-location">
                             <option value="">Location</option>
                             <option value="Dubai Marina">Dubai Marina</option>
                             <option value="Downtown Dubai">Downtown Dubai</option>
@@ -63,7 +63,7 @@
                         </select>
                     </div>
                     <div class="filter-item">
-                         <select id="filter-delivery">
+                         <select id="js-filter-delivery">
                             <option value="">Delivery Date</option>
                             <option value="ready">Ready Now</option>
                             <option value="off-plan">Off-Plan</option>
@@ -76,10 +76,10 @@
         <!-- PROPERTY LISTINGS SECTION -->
         <section class="property-listings-section section">
             <div class="container">
-                <div class="listings-container" id="listings-container">
+                <div class="listings-container" id="js-listings-container">
                     <p>Loading properties...</p>
                 </div>
-                <div id="no-results-message" style="display: none;">
+                <div id="js-no-results-message" style="display: none;">
                     <h3>No properties match your current filters.</h3>
                     <p>Please try adjusting your search criteria.</p>
                 </div>
@@ -114,7 +114,6 @@
         <div class="footer-bottom"><div class="container"><p class="copyright">© <span id="year"></span> Koush Real Estate. All Rights Reserved.</p></div></div>
     </footer>
 
-    <!-- THIS SCRIPT IS REQUIRED FOR DESCRIPTIONS TO RENDER -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
