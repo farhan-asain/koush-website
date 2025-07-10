@@ -6,10 +6,9 @@ media_folder: "assets/images/uploads"
 public_folder: "/assets/images/uploads"
 
 collections:
-  - name: "test_collection"
-    label: "Test Collection"
+  - name: "test_pages"
+    label: "Test Pages"
     folder: "content/test"
     create: true
-    slug: "{{slug}}"
     fields:
       - {label: "Title", name: "title", widget: "string"}
