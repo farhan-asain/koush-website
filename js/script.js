@@ -1,8 +1,16 @@
 document.addEventListener('DOMContentLoaded', () => {
+
+    // --- FIX FOR PASSWORD RESET & EMAIL CONFIRMATION ---
+    if (window.location.hash.includes('invite_token=') || window.location.hash.includes('recovery_token=')) {
+        if (window.netlifyIdentity) {
+            window.netlifyIdentity.open();
+        }
+    }
+
+    // --- Page Transition Logic & Smooth Scroll Fix ---
     const overlay = document.createElement('div');
     overlay.classList.add('page-transition-overlay');
     document.body.appendChild(overlay);
-
     const allLinks = document.querySelectorAll('a');
     allLinks.forEach(link => {
         link.addEventListener('click', (e) => {
@@ -32,6 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // --- Transparent Header on Scroll Logic ---
     const header = document.querySelector('.header');
     const heroSection = document.querySelector('.hero');
     if (header && heroSection) {
@@ -41,6 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // --- Mobile Menu (Hamburger) Logic ---
     const hamburger = document.querySelector('.hamburger');
     const navMenu = document.querySelector('.nav-menu');
     if (hamburger && navMenu) {
@@ -50,6 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // --- Infinite Project Scroller Logic ---
     const scrollers = document.querySelectorAll('.project-scroller');
     if (scrollers.length > 0) {
         if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
@@ -67,6 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // --- Hero Slideshow Logic ---
     const slideshow = document.querySelector('.hero-slideshow');
     if (slideshow) {
         const slides = slideshow.querySelectorAll('li');
@@ -81,6 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // --- Typewriter Effect Logic ---
     const typingText = document.querySelector('.typing-text');
     if (typingText) {
         const words = ["Residential.", "Commercial.", "Industrial.", "Renovations."];
@@ -96,8 +109,80 @@ document.addEventListener('DOMContentLoaded', () => {
         typeEffect();
     }
     
+    // --- Dynamic Copyright Year ---
     const yearSpan = document.getElementById('year');
     if(yearSpan) {
         yearSpan.textContent = new Date().getFullYear();
     }
-});
+
+    // --- DYNAMIC CONTENT LOADER & FILTERING ---
+    const listingsContainer = document.getElementById('js-listings-container');
+    const filterForm = document.getElementById('js-property-filters');
+
+    if (listingsContainer && filterForm) {
+        let allPropertyData = [];
+
+        function renderProperties(propertiesToRender) {
+            const noResultsMessage = document.getElementById('js-no-results-message');
+            listingsContainer.innerHTML = ''; 
+
+            if (propertiesToRender.length === 0) {
+                noResultsMessage.style.display = 'block';
+                return;
+            }
+            noResultsMessage.style.display = 'none';
+
+            propertiesToRender.forEach(prop => {
+                const priceFormatted = new Intl.NumberFormat('en-US', { style: 'decimal' }).format(prop.price);
+                const statusClass = prop.status.toLowerCase().replace(/\s+/g, '-');
+                const card = document.createElement('div');
+                card.className = 'property-card';
+                card.innerHTML = `<div class="property-card-image"><img src="${prop.image}" alt="${prop.title}"><span class="status-badge ${statusClass}">${prop.status}</span></div><div class="property-card-details"><h3>${prop.title}</h3><p class="location-spec"><ion-icon name="location-outline"></ion-icon> ${prop.location_name}</p><ul class="property-stats"><li><ion-icon name="bed-outline"></ion-icon> ${prop.beds} Beds</li><li><ion-icon name="water-outline"></ion-icon> ${prop.baths} Baths</li><li><ion-icon name="cube-outline"></ion-icon> ${prop.area} sqft</li></ul><p class="property-description">${marked.parse(prop.description || '')}</p><div class="price-and-cta"><div class="price">AED ${priceFormatted}</div><a href="#" class="btn property-btn">View Details</a></div></div>`;
+                listingsContainer.appendChild(card);
+            });
+        }
+
+        function filterProperties() {
+            const searchInput = document.getElementById('js-filter-search');
+            const priceInput = document.getElementById('js-filter-price');
+            const locationInput = document.getElementById('js-filter-location');
+            const deliveryInput = document.getElementById('js-filter-delivery');
+
+            const searchTerm = searchInput.value.toLowerCase().trim();
+            const priceValue = priceInput.value;
+            const locationValue = locationInput.value;
+            const deliveryValue = deliveryInput.value;
+            
+            let [minPrice, maxPrice] = [0, Infinity];
+            if (priceValue) { [minPrice, maxPrice] = priceValue.split('-').map(Number); }
+            
+            const filtered = allPropertyData.filter(prop => {
+                const searchMatch = !searchTerm || prop.title.toLowerCase().includes(searchTerm);
+                const priceMatch = !priceValue || (prop.price >= minPrice && prop.price <= maxPrice);
+                const locationMatch = !locationValue || prop.location_slug === locationValue;
+                const deliveryMatch = !deliveryValue || (prop.status.toLowerCase().replace(/\s+/g, '-') === (deliveryValue === 'ready' ? 'ready-to-move' : 'off-plan'));
+
+                return searchMatch && priceMatch && locationMatch && deliveryMatch;
+            });
+
+            renderProperties(filtered);
+        }
+
+        async function fetchProperties() {
+            try {
+                const response = await fetch('/content/properties.json');
+                if (!response.ok) throw new Error(`Network response failed with status: ${response.status}`);
+                allPropertyData = await response.json();
+                renderProperties(allPropertyData);
+            } catch (error) {
+                listingsContainer.innerHTML = '<p>Error loading properties. Please go to the admin panel, create a property, and publish it.</p>';
+                console.error('Error fetching properties:', error);
+            }
+        }
+
+        filterForm.addEventListener('submit', (e) => { e.preventDefault(); filterProperties(); });
+        filterForm.addEventListener('input', filterProperties);
+        
+        fetchProperties();
+    }
+};

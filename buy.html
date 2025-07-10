@@ -1,194 +1,121 @@
-document.addEventListener('DOMContentLoaded', () => {
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buy Properties | Koush Real Estate</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <script src="js/script.js" defer></script>
+</head>
+<body>
 
-    // --- FIX FOR PASSWORD RESET & EMAIL CONFIRMATION ---
-    if (window.location.hash.includes('invite_token=') || window.location.hash.includes('recovery_token=')) {
-        if (window.netlifyIdentity) {
-            window.netlifyIdentity.open();
-        }
-    }
+    <header class="header header-scrolled">
+        <nav class="navbar container">
+            <a href="index.html" class="logo"><img src="assets/images/koush_logo.png" alt="Koush Contracting Logo"></a>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="index.html#home" class="nav-link">Home</a></li>
+                <li class="nav-item"><a href="index.html#services" class="nav-link">Offers</a></li>
+                <li class="nav-item"><a href="index.html#projects" class="nav-link">Projects</a></li>
+                <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
+                <li class="nav-item"><a href="buy.html" class="nav-link cta cta-secondary">BUY</a></li>
+                <li class="nav-item"><a href="contact.html" class="nav-link cta cta-primary"><span>Contact Us</span></a></li>
+            </ul>
+            <div class="hamburger"><span class="bar"></span><span class="bar"></span><span class="bar"></span></div>
+        </nav>
+    </header>
 
-    // --- Page Transition Logic & Smooth Scroll Fix ---
-    const overlay = document.createElement('div');
-    overlay.classList.add('page-transition-overlay');
-    document.body.appendChild(overlay);
+    <main>
+        <section class="buy-page-header section">
+            <div class="container">
+                <div class="page-header">
+                    <h1 class="page-title">Find Your Future Property</h1>
+                    <p class="page-subtitle">Use our advanced filters to find the perfect property that matches your dreams.</p>
+                </div>
+            </div>
+        </section>
 
-    const allLinks = document.querySelectorAll('a');
+        <!-- FILTERS SECTION -->
+        <section class="filter-section bg-light">
+            <div class="container">
+                <form class="filter-bar-container" id="js-property-filters">
+                    <div class="filter-item search-bar-wrapper">
+                        <ion-icon name="search-outline"></ion-icon>
+                        <input type="search" id="js-filter-search" placeholder="Search by Project Name, Area...">
+                    </div>
+                    <div class="filter-item">
+                        <select id="js-filter-price">
+                            <option value="">Price Range (AED)</option>
+                            <option value="0-1000000">0 - 1,000,000</option>
+                            <option value="1000000-3000000">1,000,000 - 3,000,000</option>
+                            <option value="3000000-5000000">3,000,000 - 5,000,000</option>
+                            <option value="5000000-999999999">5,000,000+</option>
+                        </select>
+                    </div>
+                    <div class="filter-item">
+                        <select id="js-filter-location">
+                            <option value="">Location</option>
+                            <option value="Dubai Marina">Dubai Marina</option>
+                            <option value="Downtown Dubai">Downtown Dubai</option>
+                            <option value="Al Mowaihat 2">Al Mowaihat 2</option>
+                        </select>
+                    </div>
+                    <div class="filter-item">
+                         <select id="js-filter-delivery">
+                            <option value="">Delivery Date</option>
+                            <option value="ready">Ready Now</option>
+                            <option value="off-plan">Off-Plan</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+        </section>
 
-    allLinks.forEach(link => {
-        link.addEventListener('click', (e) => {
-            const href = link.getAttribute('href');
+        <!-- PROPERTY LISTINGS SECTION -->
+        <section class="property-listings-section section">
+            <div class="container">
+                <div class="listings-container" id="js-listings-container">
+                    <p>Loading properties...</p>
+                </div>
+                <div id="js-no-results-message" style="display: none;">
+                    <h3>No properties match your current filters.</h3>
+                    <p>Please try adjusting your search criteria.</p>
+                </div>
+            </div>
+        </section>
+    </main>
 
-            if (href && href.startsWith('#')) {
-                const hamburger = document.querySelector('.hamburger');
-                const navMenu = document.querySelector('.nav-menu');
-                if (hamburger && hamburger.classList.contains('active')) {
-                    hamburger.classList.remove('active');
-                    navMenu.classList.remove('active');
-                }
-                return;
-            }
+    <footer class="footer">
+        <div class="container footer-grid">
+            <div class="footer-col footer-col-about"><a href="index.html" class="footer-logo"><img src="assets/images/koush_logo.png" alt="Koush Contracting Logo"></a><p class="footer-about">Building the future with precision and passion. Your trusted partner for all construction needs.</p></div>
+            <div class="footer-col">
+                <h4 class="footer-heading">Quick Links</h4>
+                <ul class="footer-links"><li><a href="index.html#home">Home</a></li><li><a href="index.html#services">Offers</a></li><li><a href="index.html#projects">Our Work</a></li><li><a href="about.html">About</a></li><li><a href="contact.html">Contact</a></li></ul>
+            </div>
+            <div class="footer-col">
+                <h4 class="footer-heading">Contact Us</h4>
+                <ul class="footer-contact">
+                    <li><ion-icon name="location-outline"></ion-icon><span>Ajman, Sheikh Ammar Street, Al Mowaihat 2</span></li>
+                    <li><ion-icon name="call-outline"></ion-icon><a href="tel:+971508686995">+971 50868 6995</a></li>
+                    <li><ion-icon name="mail-outline"></ion-icon><a href="mailto:info@koush.ae">info@koush.ae</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4 class="footer-heading">Follow Us</h4>
+                <div class="social-links">
+                    <a href="https://www.facebook.com/people/%D9%83%D9%88%D8%B4-%D9%84%D9%84%D8%B9%D9%82%D8%A7%D8%B1%D8%A7%D8%AA-Koush-Real-Estate/61557055146396/" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><ion-icon name="logo-facebook"></ion-icon></a>
+                    <a href="https://www.instagram.com/koush515/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><ion-icon name="logo-instagram"></ion-icon></a>
+                    <a href="https://www.youtube.com/@koushREALESTATE" target="_blank" rel="noopener noreferrer" aria-label="YouTube"><ion-icon name="logo-youtube"></ion-icon></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom"><div class="container"><p class="copyright">© <span id="year"></span> Koush Real Estate. All Rights Reserved.</p></div></div>
+    </footer>
 
-            const isExternal = link.hostname !== window.location.hostname && link.hostname !== "";
-            const opensInNewTab = link.target === '_blank';
-            const isPdf = href && href.endsWith('.pdf');
-            const isSpecialProtocol = href && (href.startsWith('mailto:') || href.startsWith('tel:'));
-
-            if (!href || isExternal || opensInNewTab || isPdf || isSpecialProtocol) {
-                return;
-            }
-
-            e.preventDefault();
-            const destination = href;
-            overlay.classList.add('is-active');
-            setTimeout(() => {
-                window.location.href = destination;
-            }, 500);
-        });
-    });
-
-    // --- Transparent Header on Scroll Logic ---
-    const header = document.querySelector('.header');
-    const heroSection = document.querySelector('.hero');
-    if (header && heroSection) {
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 50) { header.classList.add('header-scrolled'); } 
-            else { header.classList.remove('header-scrolled'); }
-        });
-    }
-
-    // --- Mobile Menu (Hamburger) Logic ---
-    const hamburger = document.querySelector('.hamburger');
-    const navMenu = document.querySelector('.nav-menu');
-    if (hamburger && navMenu) {
-        hamburger.addEventListener('click', () => {
-            hamburger.classList.toggle('active');
-            navMenu.classList.toggle('active');
-        });
-    }
-
-    // --- Infinite Project Scroller Logic ---
-    const scrollers = document.querySelectorAll('.project-scroller');
-    if (scrollers.length > 0) {
-        if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-            scrollers.forEach(scroller => addAnimation(scroller));
-        }
-    }
-    function addAnimation(scroller) {
-        if (scroller.getAttribute('data-animated')) {
-            const scrollerContent = Array.from(scroller.children);
-            scrollerContent.forEach(item => {
-                const duplicatedItem = item.cloneNode(true);
-                duplicatedItem.setAttribute('aria-hidden', true);
-                scroller.appendChild(duplicatedItem);
-            });
-        }
-    }
-
-    // --- Hero Slideshow Logic ---
-    const slideshow = document.querySelector('.hero-slideshow');
-    if (slideshow) {
-        const slides = slideshow.querySelectorAll('li');
-        if (slides.length > 0) {
-            let currentSlide = 0;
-            slides[0].classList.add('active');
-            setInterval(() => {
-                slides[currentSlide].classList.remove('active');
-                currentSlide = (currentSlide + 1) % slides.length;
-                slides[currentSlide].classList.add('active');
-            }, 5000);
-        }
-    }
-
-    // --- Typewriter Effect Logic ---
-    const typingText = document.querySelector('.typing-text');
-    if (typingText) {
-        const words = ["Residential.", "Commercial.", "Industrial.", "Renovations."];
-        let wordIndex = 0, charIndex = 0, isDeleting = false;
-        function typeEffect() {
-            const currentWord = words[wordIndex];
-            const currentChar = isDeleting ? currentWord.substring(0, charIndex - 1) : currentWord.substring(0, charIndex + 1);
-            typingText.textContent = currentChar;
-            if (!isDeleting && charIndex < currentWord.length) { charIndex++; setTimeout(typeEffect, 120); } 
-            else if (isDeleting && charIndex > 0) { charIndex--; setTimeout(typeEffect, 80); } 
-            else { isDeleting = !isDeleting; if (!isDeleting) { wordIndex = (wordIndex + 1) % words.length; } setTimeout(typeEffect, 1200); }
-        }
-        typeEffect();
-    }
-    
-    // --- Dynamic Copyright Year ---
-    const yearSpan = document.getElementById('year');
-    if(yearSpan) {
-        yearSpan.textContent = new Date().getFullYear();
-    }
-
-    // --- DYNAMIC CONTENT LOADER & FILTERING ---
-    const listingsContainer = document.getElementById('js-listings-container');
-    const filterForm = document.getElementById('js-property-filters');
-
-    if (listingsContainer && filterForm) {
-        let allPropertyData = [];
-
-        function renderProperties(propertiesToRender) {
-            const noResultsMessage = document.getElementById('js-no-results-message');
-            listingsContainer.innerHTML = ''; 
-
-            if (propertiesToRender.length === 0) {
-                noResultsMessage.style.display = 'block';
-                return;
-            }
-            noResultsMessage.style.display = 'none';
-
-            propertiesToRender.forEach(prop => {
-                const priceFormatted = new Intl.NumberFormat('en-US', { style: 'decimal' }).format(prop.price);
-                const statusClass = prop.status.toLowerCase().replace(/\s+/g, '-');
-                const card = document.createElement('div');
-                card.className = 'property-card';
-                card.innerHTML = `<div class="property-card-image"><img src="${prop.image}" alt="${prop.title}"><span class="status-badge ${statusClass}">${prop.status}</span></div><div class="property-card-details"><h3>${prop.title}</h3><p class="location-spec"><ion-icon name="location-outline"></ion-icon> ${prop.location_name}</p><ul class="property-stats"><li><ion-icon name="bed-outline"></ion-icon> ${prop.beds} Beds</li><li><ion-icon name="water-outline"></ion-icon> ${prop.baths} Baths</li><li><ion-icon name="cube-outline"></ion-icon> ${prop.area} sqft</li></ul><p class="property-description">${marked.parse(prop.description || '')}</p><div class="price-and-cta"><div class="price">AED ${priceFormatted}</div><a href="#" class="btn property-btn">View Details</a></div></div>`;
-                listingsContainer.appendChild(card);
-            });
-        }
-
-        function filterProperties() {
-            const searchInput = document.getElementById('js-filter-search');
-            const priceInput = document.getElementById('js-filter-price');
-            const locationInput = document.getElementById('js-filter-location');
-            const deliveryInput = document.getElementById('js-filter-delivery');
-
-            const searchTerm = searchInput.value.toLowerCase().trim();
-            const priceValue = priceInput.value;
-            const locationValue = locationInput.value;
-            const deliveryValue = deliveryInput.value;
-            
-            let [minPrice, maxPrice] = [0, Infinity];
-            if (priceValue) { [minPrice, maxPrice] = priceValue.split('-').map(Number); }
-            
-            const filtered = allPropertyData.filter(prop => {
-                const searchMatch = !searchTerm || prop.title.toLowerCase().includes(searchTerm);
-                const priceMatch = !priceValue || (prop.price >= minPrice && prop.price <= maxPrice);
-                const locationMatch = !locationValue || prop.location_slug === locationValue;
-                const deliveryMatch = !deliveryValue || (prop.status.toLowerCase().replace(/\s+/g, '-') === (deliveryValue === 'ready' ? 'ready-to-move' : 'off-plan'));
-
-                return searchMatch && priceMatch && locationMatch && deliveryMatch;
-            });
-
-            renderProperties(filtered);
-        }
-
-        async function fetchProperties() {
-            try {
-                const response = await fetch('/content/properties.json');
-                if (!response.ok) throw new Error(`Network response failed with status: ${response.status}`);
-                allPropertyData = await response.json();
-                renderProperties(allPropertyData);
-            } catch (error) {
-                listingsContainer.innerHTML = '<p>Error loading properties. Please go to the admin panel, create a property, and publish it.</p>';
-                console.error('Error fetching properties:', error);
-            }
-        }
-
-        filterForm.addEventListener('submit', (e) => { e.preventDefault(); filterProperties(); });
-        filterForm.addEventListener('input', filterProperties);
-        
-        fetchProperties();
-    }
-});
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</body>
+</html>
