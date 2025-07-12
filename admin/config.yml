@@ -6,12 +6,30 @@ media_folder: "assets/images/uploads"
 public_folder: "/assets/images/uploads"
 
 collections:
-  - name: "posts"
-    label: "Blog Posts"
-    folder: "_posts"
+  - name: "pages"
+    label: "Page Content"
+    files:
+      - file: "content/homepage.json"
+        label: "Homepage"
+        name: "homepage"
+        fields:
+          - {label: "Welcome Section Title", name: "welcome_title", widget: "string"}
+          - {label: "Welcome Section Subheading", name: "welcome_subheading", widget: "string"}
+          - {label: "Welcome Section Body Text", name: "welcome_text", widget: "text"}
+  
+  - name: "properties"
+    label: "Properties"
+    folder: "content/properties"
     create: true
-    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    slug: "{{slug}}"
     fields:
-      - {label: "Title", name: "title", widget: "string"}
-      - {label: "Publish Date", name: "date", widget: "datetime"}
-      - {label: "Body", name: "body", widget: "markdown"}
+      - {label: "Property Name", name: "title", widget: "string"}
+      - {label: "Location Name (e.g., Dubai Marina)", name: "location_name", widget: "string"}
+      - {label: "Location Slug (for filter)", name: "location_slug", widget: "string"}
+      - {label: "Status", name: "status", widget: "select", options: ["Ready to Move", "Off-Plan"]}
+      - {label: "Price (Numbers only)", name: "price", widget: "number"}
+      - {label: "Main Image", name: "image", widget: "image"}
+      - {label: "Beds", name: "beds", widget: "number", default: 1}
+      - {label: "Baths", name: "baths", widget: "number", default: 1}
+      - {label: "Area (sqft)", name: "area", widget: "number", default: 1000}
+      - {label: "Description", name: "description", widget: "markdown"}
