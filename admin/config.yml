@@ -6,30 +6,31 @@ media_folder: "assets/images/uploads"
 public_folder: "/assets/images/uploads"
 
 collections:
-  - name: "pages"
-    label: "Page Content"
+  - name: "content"
+    label: "Website Content"
     files:
-      - file: "content/homepage.json"
-        label: "Homepage"
+      - label: "Homepage"
         name: "homepage"
+        file: "_data/homepage.json"
         fields:
-          - {label: "Welcome Section Title", name: "welcome_title", widget: "string"}
-          - {label: "Welcome Section Subheading", name: "welcome_subheading", widget: "string"}
+          - {label: "Welcome Section Title", name: "welcome_title", widget: "string", default: "Welcome to Koush"}
+          - {label: "Welcome Section Subheading", name: "welcome_subheading", widget: "string", default: "Over 10 Years of Excellence"}
           - {label: "Welcome Section Body Text", name: "welcome_text", widget: "text"}
-  
-  - name: "properties"
-    label: "Properties"
-    folder: "content/properties"
-    create: true
-    slug: "{{slug}}"
-    fields:
-      - {label: "Property Name", name: "title", widget: "string"}
-      - {label: "Location Name (e.g., Dubai Marina)", name: "location_name", widget: "string"}
-      - {label: "Location Slug (for filter)", name: "location_slug", widget: "string"}
-      - {label: "Status", name: "status", widget: "select", options: ["Ready to Move", "Off-Plan"]}
-      - {label: "Price (Numbers only)", name: "price", widget: "number"}
-      - {label: "Main Image", name: "image", widget: "image"}
-      - {label: "Beds", name: "beds", widget: "number", default: 1}
-      - {label: "Baths", name: "baths", widget: "number", default: 1}
-      - {label: "Area (sqft)", name: "area", widget: "number", default: 1000}
-      - {label: "Description", name: "description", widget: "markdown"}
+      - label: "Properties"
+        name: "properties"
+        file: "_data/properties.json"
+        fields:
+          - label: "Property Listings"
+            name: "items"
+            widget: "list"
+            fields:
+              - {label: "Property Name", name: "title", widget: "string"}
+              - {label: "Location Name", name: "location_name", widget: "string"}
+              - {label: "Location Slug (for filter)", name: "location_slug", widget: "string"}
+              - {label: "Status", name: "status", widget: "select", options: ["Ready to Move", "Off-Plan"]}
+              - {label: "Price (Numbers only)", name: "price", widget: "number"}
+              - {label: "Main Image", name: "image", widget: "image"}
+              - {label: "Beds", name: "beds", widget: "number", default: 1}
+              - {label: "Baths", name: "baths", widget: "number", default: 1}
+              - {label: "Area (sqft)", name: "area", widget: "number", default: 1000}
+              - {label: "Description", name: "description", widget: "markdown"}

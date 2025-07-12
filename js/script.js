@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // --- Page Transition Logic & Smooth Scroll Fix ---
+    // --- All Original, Working Functions (Transitions, Scrollers, etc.) ---
     const overlay = document.createElement('div');
     overlay.classList.add('page-transition-overlay');
     document.body.appendChild(overlay);
@@ -40,7 +40,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // --- Transparent Header on Scroll Logic ---
     const header = document.querySelector('.header');
     const heroSection = document.querySelector('.hero');
     if (header && heroSection) {
@@ -50,7 +49,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- Mobile Menu (Hamburger) Logic ---
     const hamburger = document.querySelector('.hamburger');
     const navMenu = document.querySelector('.nav-menu');
     if (hamburger && navMenu) {
@@ -60,7 +58,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- Infinite Project Scroller Logic ---
     const scrollers = document.querySelectorAll('.project-scroller');
     if (scrollers.length > 0) {
         if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
@@ -78,7 +75,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // --- Hero Slideshow Logic ---
     const slideshow = document.querySelector('.hero-slideshow');
     if (slideshow) {
         const slides = slideshow.querySelectorAll('li');
@@ -93,7 +89,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // --- Typewriter Effect Logic ---
     const typingText = document.querySelector('.typing-text');
     if (typingText) {
         const words = ["Residential.", "Commercial.", "Industrial.", "Renovations."];
@@ -109,28 +104,27 @@ document.addEventListener('DOMContentLoaded', () => {
         typeEffect();
     }
     
-    // --- Dynamic Copyright Year ---
     const yearSpan = document.getElementById('year');
     if(yearSpan) {
         yearSpan.textContent = new Date().getFullYear();
     }
 
-    // --- DYNAMIC CONTENT LOADER ---
+    // --- DYNAMIC CONTENT LOADER & FILTERING ---
     async function loadHomepageContent() {
         if (document.getElementById('welcome-title')) {
             try {
-                const response = await fetch('/content/homepage.json');
+                const response = await fetch('/_data/homepage.json');
+                if (!response.ok) return;
                 const data = await response.json();
-                document.getElementById('welcome-title').textContent = data.welcome_title;
-                document.getElementById('welcome-subheading').textContent = data.welcome_subheading;
-                document.getElementById('welcome-text').innerHTML = marked.parse(data.welcome_text);
+                if(data.welcome_title) document.getElementById('welcome-title').textContent = data.welcome_title;
+                if(data.welcome_subheading) document.getElementById('welcome-subheading').textContent = data.welcome_subheading;
+                if(data.welcome_text) document.getElementById('welcome-text').innerHTML = data.welcome_text;
             } catch (error) {
-                console.log("Homepage content not yet available.");
+                console.log("Homepage content not found, using default text.");
             }
         }
     }
     
-    // --- PROPERTY PAGE DYNAMIC CONTENT AND FILTERING ---
     async function loadAndFilterProperties() {
         const listingsContainer = document.getElementById('js-listings-container');
         const filterForm = document.getElementById('js-property-filters');
@@ -143,16 +137,9 @@ document.addEventListener('DOMContentLoaded', () => {
             const noResultsMessage = document.getElementById('js-no-results-message');
             listingsContainer.innerHTML = ''; 
 
-            if (propertiesToRender.length === 0) {
-                noResultsMessage.style.display = 'block';
-                if(allPropertyData.length > 0) {
-                    // Show this only if there are properties but none match filters
-                    noResultsMessage.innerHTML = '<h3>No properties match your current filters.</h3><p>Please try adjusting your search criteria.</p>';
-                } else {
-                    // Show this if no properties are loaded at all
-                    noResultsMessage.innerHTML = '<p>No properties found. Please go to the admin panel, create a property, and publish it.</p>';
-                }
-                return;
+            if (!propertiesToRender || propertiesToRender.length === 0) {
+                 noResultsMessage.style.display = 'block';
+                 return;
             }
             noResultsMessage.style.display = 'none';
 
@@ -161,7 +148,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const statusClass = prop.status.toLowerCase().replace(/\s+/g, '-');
                 const card = document.createElement('div');
                 card.className = 'property-card';
-                card.innerHTML = `<div class="property-card-image"><img src="${prop.image}" alt="${prop.title}"><span class="status-badge ${statusClass}">${prop.status}</span></div><div class="property-card-details"><h3>${prop.title}</h3><p class="location-spec"><ion-icon name="location-outline"></ion-icon> ${prop.location_name}</p><ul class="property-stats"><li><ion-icon name="bed-outline"></ion-icon> ${prop.beds} Beds</li><li><ion-icon name="water-outline"></ion-icon> ${prop.baths} Baths</li><li><ion-icon name="cube-outline"></ion-icon> ${prop.area} sqft</li></ul><p class="property-description">${marked.parse(prop.description || '')}</p><div class="price-and-cta"><div class="price">AED ${priceFormatted}</div><a href="#" class="btn property-btn">View Details</a></div></div>`;
+                card.innerHTML = `<div class="property-card-image"><img src="${prop.image}" alt="${prop.title}"><span class="status-badge ${statusClass}">${prop.status}</span></div><div class="property-card-details"><h3>${prop.title}</h3><p class="location-spec"><ion-icon name="location-outline"></ion-icon> ${prop.location_name}</p><ul class="property-stats"><li><ion-icon name="bed-outline"></ion-icon> ${prop.beds} Beds</li><li><ion-icon name="water-outline"></ion-icon> ${prop.baths} Baths</li><li><ion-icon name="cube-outline"></ion-icon> ${prop.area} sqft</li></ul><p class="property-description">${prop.description || ''}</p><div class="price-and-cta"><div class="price">AED ${priceFormatted}</div><a href="#" class="btn property-btn">View Details</a></div></div>`;
                 listingsContainer.appendChild(card);
             });
         }
@@ -194,12 +181,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
         async function fetchProperties() {
             try {
-                const response = await fetch('/content/properties.json');
-                if (!response.ok) throw new Error(`Network response failed with status: ${response.status}`);
-                allPropertyData = await response.json();
+                const response = await fetch('/_data/properties.json');
+                if (!response.ok) throw new Error(`Could not fetch properties.json`);
+                const data = await response.json();
+                allPropertyData = data.items || []; // The properties are inside the "items" key
                 renderProperties(allPropertyData);
             } catch (error) {
-                listingsContainer.innerHTML = '<p>Error loading properties. Please go to the admin panel, create a property, and publish it.</p>';
+                listingsContainer.innerHTML = '<p>No properties found. Please go to the admin panel, create a property, and publish it.</p>';
                 console.error('Error fetching properties:', error);
             }
         }
