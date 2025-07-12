@@ -1,13 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    // --- FIX FOR PASSWORD RESET & EMAIL CONFIRMATION ---
-    if (window.location.hash.includes('invite_token=') || window.location.hash.includes('recovery_token=')) {
-        if (window.netlifyIdentity) {
-            window.netlifyIdentity.open();
-        }
-    }
-
-    // --- All Original, Working Functions (Transitions, Scrollers, etc.) ---
+    // --- All original, working functions (Transitions, Scrollers, etc.) ---
     const overlay = document.createElement('div');
     overlay.classList.add('page-transition-overlay');
     document.body.appendChild(overlay);
@@ -138,7 +131,11 @@ document.addEventListener('DOMContentLoaded', () => {
             listingsContainer.innerHTML = ''; 
 
             if (!propertiesToRender || propertiesToRender.length === 0) {
-                 noResultsMessage.style.display = 'block';
+                 if (allPropertyData.length > 0) {
+                     noResultsMessage.style.display = 'block';
+                 } else {
+                     listingsContainer.innerHTML = '<p>No properties have been published yet. Please add one in the admin panel.</p>';
+                 }
                  return;
             }
             noResultsMessage.style.display = 'none';
@@ -148,7 +145,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const statusClass = prop.status.toLowerCase().replace(/\s+/g, '-');
                 const card = document.createElement('div');
                 card.className = 'property-card';
-                card.innerHTML = `<div class="property-card-image"><img src="${prop.image}" alt="${prop.title}"><span class="status-badge ${statusClass}">${prop.status}</span></div><div class="property-card-details"><h3>${prop.title}</h3><p class="location-spec"><ion-icon name="location-outline"></ion-icon> ${prop.location_name}</p><ul class="property-stats"><li><ion-icon name="bed-outline"></ion-icon> ${prop.beds} Beds</li><li><ion-icon name="water-outline"></ion-icon> ${prop.baths} Baths</li><li><ion-icon name="cube-outline"></ion-icon> ${prop.area} sqft</li></ul><p class="property-description">${prop.description || ''}</p><div class="price-and-cta"><div class="price">AED ${priceFormatted}</div><a href="#" class="btn property-btn">View Details</a></div></div>`;
+                card.innerHTML = `<div class="property-card-image"><img src="${prop.image}" alt="${prop.title}"><span class="status-badge ${statusClass}">${prop.status}</span></div><div class="property-card-details"><h3>${prop.title}</h3><p class="location-spec"><ion-icon name="location-outline"></ion-icon> ${prop.location_name}</p><ul class="property-stats"><li><ion-icon name="bed-outline"></ion-icon> ${prop.beds} Beds</li><li><ion-icon name="water-outline"></ion-icon> ${prop.baths} Baths</li><li><ion-icon name="cube-outline"></ion-icon> ${prop.area} sqft</li></ul><p class="property-description">${window.marked ? marked.parse(prop.description || '') : (prop.description || '')}</p><div class="price-and-cta"><div class="price">AED ${priceFormatted}</div><a href="#" class="btn property-btn">View Details</a></div></div>`;
                 listingsContainer.appendChild(card);
             });
         }
@@ -184,7 +181,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const response = await fetch('/_data/properties.json');
                 if (!response.ok) throw new Error(`Could not fetch properties.json`);
                 const data = await response.json();
-                allPropertyData = data.items || []; // The properties are inside the "items" key
+                allPropertyData = data.items || [];
                 renderProperties(allPropertyData);
             } catch (error) {
                 listingsContainer.innerHTML = '<p>No properties found. Please go to the admin panel, create a property, and publish it.</p>';
