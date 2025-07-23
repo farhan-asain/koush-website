@@ -21,9 +21,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
             
-            // Allow property detail links to navigate normally without a fade transition
             if (href && href.includes('property-details.html')) {
-                return;
+                return; // Let the link navigate normally
             }
 
             const isExternal = link.hostname !== window.location.hostname && link.hostname !== "";
@@ -120,18 +119,18 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- MASTER FUNCTION TO INITIALIZE PAGE-SPECIFIC LOGIC ---
-    function initPage() {
+    function initPageSpecificLogic() {
         const pathname = window.location.pathname;
 
         if (pathname.includes('/buy.html')) {
-            initBuyPage();
+            initBuyPageFilters();
         } else if (pathname.includes('/property-details.html')) {
             initPropertyDetailPage();
         }
     }
 
     // --- BUY PAGE: FILTER LOGIC ---
-    function initBuyPage() {
+    function initBuyPageFilters() {
         const filterForm = document.getElementById('js-property-filters');
         if (!filterForm) return;
 
@@ -191,7 +190,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const container = document.getElementById('property-detail-container');
         if (!container) return;
         
-        // This is our simple, reliable "database" inside the script
         const propertyDatabase = {
             'the-one': { title: 'THE ONE', location: 'Bel Air, LA', status: 'For Investment', price: 690000, image: 'assets/images/waterfront_villa.jpg', gallery: ['assets/images/detail-thumb1.jpg', 'assets/images/detail-thumb2.jpg'], beds: 6, baths: 4, area: 2780, overview: `Introducing The One, a striking 6-bedroom residence designed for both luxury living and smart investment. Located in the prestigious neighborhood of Bel Air, Los Angeles, this 2,780 sqft home features bold modern architecture, open-plan interiors, and refined finishes. With 4 bathrooms, spacious living areas, and curated landscaping, it's a statement of comfort, style, and long-term value.`, features: ['6 Bedrooms & 4 Bathrooms', 'Bold Contemporary Design', 'Professionally Landscaped Garden', 'Spacious Driveway & Garage', 'Investment-Ready Property'], amenities: ['Air Conditioner', 'Washing Machine', 'Internet', 'Water Heater'] },
             'billionaire-mansion': { title: 'Billionaire Mansion', location: 'Bel Air, LA', status: 'For Sale', price: 500000, image: 'assets/images/downtown_apartment.jpg', gallery: [], beds: 5, baths: 4, area: 3800, overview: 'A magnificent estate that defines modern luxury, offering panoramic city views and unparalleled privacy.', features: ['Infinity Pool', 'Home Theater', '12-Car Garage'], amenities: ['Security System', 'Private Gym'] },
@@ -266,7 +264,6 @@ document.addEventListener('DOMContentLoaded', () => {
             </section>
             `;
 
-            // Re-run the gallery logic specifically for the newly created elements
             const galleryThumbnails = container.querySelectorAll('.property-gallery-thumbnails img');
             const mainImage = container.querySelector('#main-gallery-image img');
             if (galleryThumbnails.length > 0 && mainImage) {
@@ -284,5 +281,5 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Run the master initializer function
-    initPage();
+    initPageSpecificLogic();
 });
