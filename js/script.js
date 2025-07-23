@@ -114,7 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
         yearSpan.textContent = new Date().getFullYear();
     }
 
-    // --- NEW: STATIC PROPERTY FILTERING LOGIC ---
+    // --- STATIC PROPERTY FILTERING LOGIC ---
     const filterForm = document.getElementById('js-property-filters');
     if (filterForm) {
         const searchInput = document.getElementById('js-filter-search');
@@ -148,7 +148,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const statusMatch = !statusValue || propData.status === statusValue;
 
                 if (searchMatch && priceMatch && locationMatch && statusMatch) {
-                    prop.style.display = 'block'; // Or 'grid', depending on your layout
+                    prop.style.display = 'block';
                     visibleCount++;
                 } else {
                     prop.style.display = 'none';
@@ -158,9 +158,8 @@ document.addEventListener('DOMContentLoaded', () => {
             noResultsMessage.style.display = visibleCount === 0 ? 'block' : 'none';
         }
 
-        // Trigger filtering on form submit (handles 'Enter' key) and on input changes
         filterForm.addEventListener('submit', (e) => {
-            e.preventDefault(); // Prevent page from reloading
+            e.preventDefault();
             filterProperties();
         });
         
@@ -168,5 +167,19 @@ document.addEventListener('DOMContentLoaded', () => {
         priceInput.addEventListener('change', filterProperties);
         locationInput.addEventListener('change', filterProperties);
         statusInput.addEventListener('change', filterProperties);
+    }
+
+    // --- LOGIC FOR PROPERTY DETAIL PAGE GALLERY ---
+    const galleryThumbnails = document.querySelectorAll('.property-gallery-thumbnails img');
+    const mainGalleryImage = document.querySelector('#main-gallery-image img');
+    
+    if (galleryThumbnails.length > 0 && mainGalleryImage) {
+        galleryThumbnails.forEach(thumb => {
+            thumb.addEventListener('click', () => {
+                mainGalleryImage.src = thumb.src;
+                galleryThumbnails.forEach(t => t.classList.remove('active'));
+                thumb.classList.add('active');
+            });
+        });
     }
 });

@@ -271,12 +271,162 @@ main > .section:last-of-type { padding-bottom: 80px; }
     text-align: center;
     padding: 40px 20px;
     color: #777;
-    grid-column: 1 / -1; /* Make it span the full grid width */
+    grid-column: 1 / -1;
 }
 #js-no-results-message h3 {
     font-size: 1.5rem;
     color: var(--secondary-color);
     margin-bottom: 10px;
+}
+
+/* === PROPERTY DETAIL PAGE STYLES === */
+.property-detail-loading {
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.property-detail-layout {
+    display: grid;
+    grid-template-columns: 2.5fr 1fr;
+    gap: 50px;
+    align-items: flex-start;
+}
+.property-gallery .main-image {
+    border-radius: 16px;
+    overflow: hidden;
+    margin-bottom: 15px;
+    height: 500px;
+}
+.property-gallery .main-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.property-gallery-thumbnails {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+.property-gallery-thumbnails img {
+    border-radius: 8px;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+    height: 120px;
+    object-fit: cover;
+    width: 100%;
+}
+.property-gallery-thumbnails img:hover,
+.property-gallery-thumbnails img.active {
+    opacity: 1;
+}
+.property-detail-main h1 {
+    font-size: 2.8rem;
+    color: var(--secondary-color);
+    margin-bottom: 5px;
+}
+.property-detail-main .location-spec {
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+}
+.property-detail-main .property-stats {
+    padding: 20px 0;
+    margin: 20px 0;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+}
+.detail-section {
+    margin-bottom: 40px;
+}
+.detail-section h2 {
+    font-size: 1.8rem;
+    color: var(--secondary-color);
+    margin-bottom: 20px;
+}
+.features-list {
+    list-style: none;
+    padding-left: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 20px;
+}
+.features-list li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.features-list ion-icon {
+    color: var(--buy-btn-color);
+    font-size: 1.2rem;
+}
+.amenities-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+.amenity-tag {
+    background-color: #e9ecef;
+    padding: 8px 15px;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+.property-detail-sidebar {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.07);
+    position: sticky;
+    top: 120px;
+}
+.sidebar-widget-title {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+.sidebar-widget-price {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--buy-btn-color);
+    margin-bottom: 15px;
+}
+.sidebar-widget-info {
+    font-size: 0.9rem;
+    color: #777;
+    margin-bottom: 20px;
+}
+.sidebar-agents {
+    display: flex;
+    align-items: center;
+    margin-bottom: 25px;
+}
+.agent-photos {
+    display: flex;
+}
+.agent-photos img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid #fff;
+    margin-left: -10px;
+}
+.agent-photos img:first-child { margin-left: 0; }
+.agent-info {
+    margin-left: 15px;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+.agent-info span {
+    display: block;
+    font-weight: normal;
+    color: #777;
+}
+.sidebar-widget .btn {
+    width: 100%;
+    text-align: center;
 }
 
 /* === FOOTER === */
@@ -299,7 +449,7 @@ main > .section:last-of-type { padding-bottom: 80px; }
 .copyright { font-size: 0.9rem; }
 
 @media (max-width: 992px) {
-    .offer-item, .contact-content-grid { grid-template-columns: 1fr; }
+    .offer-item, .contact-content-grid, .property-detail-layout { grid-template-columns: 1fr; }
     .offer-item:nth-child(even) .offer-image { order: 0; }
     .footer-grid { grid-template-columns: 1fr 1fr; }
     .filter-bar-container { grid-template-columns: 1fr 1fr; }
@@ -320,6 +470,9 @@ main > .section:last-of-type { padding-bottom: 80px; }
     .project-card { width: 300px; }
     .footer-grid { grid-template-columns: 1fr; }
     .contact-form .form-grid { grid-template-columns: 1fr; }
+    .property-gallery .main-image { height: 350px; }
+    .property-gallery-thumbnails { grid-template-columns: repeat(3, 1fr); }
+    .features-list { grid-template-columns: 1fr; }
 }
 @media (max-width: 576px) {
     .filter-bar-container { grid-template-columns: 1fr; }
