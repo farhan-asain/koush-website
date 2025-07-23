@@ -280,12 +280,6 @@ main > .section:last-of-type { padding-bottom: 80px; }
 }
 
 /* === PROPERTY DETAIL PAGE STYLES === */
-.property-detail-loading {
-    min-height: 80vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
 .property-detail-layout {
     display: grid;
     grid-template-columns: 2.5fr 1fr;
