@@ -1,13 +1,16 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    // --- All Original, Working Functions (Transitions, Scrollers, etc.) ---
+    // --- Page Transition Logic & Smooth Scroll Fix ---
     const overlay = document.createElement('div');
     overlay.classList.add('page-transition-overlay');
     document.body.appendChild(overlay);
+
     const allLinks = document.querySelectorAll('a');
+
     allLinks.forEach(link => {
         link.addEventListener('click', (e) => {
             const href = link.getAttribute('href');
+
             if (href && href.startsWith('#')) {
                 const hamburger = document.querySelector('.hamburger');
                 const navMenu = document.querySelector('.nav-menu');
@@ -17,24 +20,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
                 return;
             }
-            // Allow property detail links to navigate normally
+            
+            // Allow property detail links to navigate normally without a fade transition
             if (href && href.includes('property-details.html')) {
-                // We still want the fade effect, so we handle it here but don't return.
-                e.preventDefault();
-                const destination = href;
-                overlay.classList.add('is-active');
-                setTimeout(() => {
-                    window.location.href = destination;
-                }, 300); // Shorter duration for quicker navigation
                 return;
             }
+
             const isExternal = link.hostname !== window.location.hostname && link.hostname !== "";
             const opensInNewTab = link.target === '_blank';
             const isPdf = href && href.endsWith('.pdf');
             const isSpecialProtocol = href && (href.startsWith('mailto:') || href.startsWith('tel:'));
+
             if (!href || isExternal || opensInNewTab || isPdf || isSpecialProtocol) {
                 return;
             }
+
             e.preventDefault();
             const destination = href;
             overlay.classList.add('is-active');
@@ -44,6 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // --- Transparent Header on Scroll Logic ---
     const header = document.querySelector('.header');
     const heroSection = document.querySelector('.hero');
     if (header && heroSection) {
@@ -53,6 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // --- Mobile Menu (Hamburger) Logic ---
     const hamburger = document.querySelector('.hamburger');
     const navMenu = document.querySelector('.nav-menu');
     if (hamburger && navMenu) {
@@ -62,6 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // --- Infinite Project Scroller Logic ---
     const scrollers = document.querySelectorAll('.project-scroller');
     if (scrollers.length > 0) {
         if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
@@ -79,6 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // --- Hero Slideshow Logic ---
     const slideshow = document.querySelector('.hero-slideshow');
     if (slideshow) {
         const slides = slideshow.querySelectorAll('li');
@@ -93,6 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // --- Typewriter Effect Logic ---
     const typingText = document.querySelector('.typing-text');
     if (typingText) {
         const words = ["Residential.", "Commercial.", "Industrial.", "Renovations."];
@@ -108,6 +113,7 @@ document.addEventListener('DOMContentLoaded', () => {
         typeEffect();
     }
     
+    // --- Dynamic Copyright Year ---
     const yearSpan = document.getElementById('year');
     if(yearSpan) {
         yearSpan.textContent = new Date().getFullYear();
@@ -187,12 +193,12 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // This is our simple, reliable "database" inside the script
         const propertyDatabase = {
-            'the-one': { title: 'THE ONE', location: 'Bel Air, LA', status: 'For Investment', price: 690000, image: 'assets/images/waterfront_villa.jpg', gallery: ['assets/images/detail-thumb1.jpg', 'assets/images/detail-thumb2.jpg'], beds: 6, baths: 4, area: 2780, overview: `...`, features: ['6 Bedrooms & 4 Bathrooms', 'Bold Contemporary Design', 'Professionally Landscaped Garden', 'Spacious Driveway & Garage', 'Investment-Ready Property'], amenities: ['Air Conditioner', 'Washing Machine', 'Internet', 'Water Heater'] },
-            'billionaire-mansion': { title: 'Billionaire Mansion', location: 'Bel Air, LA', status: 'For Sale', price: 500000, image: 'assets/images/downtown_apartment.jpg', gallery: [], beds: 5, baths: 4, area: 3800, overview: 'A magnificent estate that defines modern luxury...', features: ['Infinity Pool', 'Home Theater'], amenities: ['Security System', 'Private Gym'] },
-            'beverly-house': { title: 'The Beverly House', location: 'Beverly Hills, CA', status: 'For Rent', price: 290000, image: 'assets/images/coastal_tower.jpg', gallery: [], beds: 3, baths: 2, area: 1500, overview: 'Historic and iconic...', features: ['Grand Ballroom', 'Tennis Court'], amenities: ['Swimming Pool'] },
-            'palazzo-di-amore': { title: 'Palazzo di Amore', location: 'Beverly Hills, CA', status: 'For Rent', price: 490000, image: 'assets/images/modern_villa_construction.jpg', gallery: [], beds: 4, baths: 2, area: 2100, overview: 'A stunning Tuscan-style villa...', features: ['Private Vineyard', 'Waterfall'], amenities: ['Spa Facility'] },
-            'the-manor': { title: 'The Manor', location: 'Holmby Hills, LA', status: 'For Investment', price: 482000, image: 'assets/images/luxury_apartment_complex.jpg', gallery: [], beds: 7, baths: 5, area: 3100, overview: 'An opulent French chateau-style mansion...', features: ['Formal Gardens', 'Beauty Salon'], amenities: ['Tennis Court'] },
-            'the-penthouse': { title: 'The Penthouse', location: 'Upper East Side, NY', status: 'For Sale', price: 298000, image: 'assets/images/corporate_office_interior.jpg', gallery: [], beds: 2, baths: 2, area: 2200, overview: 'A sophisticated penthouse with unparalleled views...', features: ['360-Degree Views', 'Rooftop Terrace'], amenities: ['Concierge Service'] }
+            'the-one': { title: 'THE ONE', location: 'Bel Air, LA', status: 'For Investment', price: 690000, image: 'assets/images/waterfront_villa.jpg', gallery: ['assets/images/detail-thumb1.jpg', 'assets/images/detail-thumb2.jpg'], beds: 6, baths: 4, area: 2780, overview: `Introducing The One, a striking 6-bedroom residence designed for both luxury living and smart investment. Located in the prestigious neighborhood of Bel Air, Los Angeles, this 2,780 sqft home features bold modern architecture, open-plan interiors, and refined finishes. With 4 bathrooms, spacious living areas, and curated landscaping, it's a statement of comfort, style, and long-term value.`, features: ['6 Bedrooms & 4 Bathrooms', 'Bold Contemporary Design', 'Professionally Landscaped Garden', 'Spacious Driveway & Garage', 'Investment-Ready Property'], amenities: ['Air Conditioner', 'Washing Machine', 'Internet', 'Water Heater'] },
+            'billionaire-mansion': { title: 'Billionaire Mansion', location: 'Bel Air, LA', status: 'For Sale', price: 500000, image: 'assets/images/downtown_apartment.jpg', gallery: [], beds: 5, baths: 4, area: 3800, overview: 'A magnificent estate that defines modern luxury, offering panoramic city views and unparalleled privacy.', features: ['Infinity Pool', 'Home Theater', '12-Car Garage'], amenities: ['Security System', 'Private Gym'] },
+            'beverly-house': { title: 'The Beverly House', location: 'Beverly Hills, CA', status: 'For Rent', price: 290000, image: 'assets/images/coastal_tower.jpg', gallery: [], beds: 3, baths: 2, area: 1500, overview: 'Historic and iconic, The Beverly House offers a unique blend of classic architecture and modern amenities in the heart of Beverly Hills.', features: ['Grand Ballroom', 'Two-Story Library', 'Tennis Court'], amenities: ['Swimming Pool', 'Manicured Gardens'] },
+            'palazzo-di-amore': { title: 'Palazzo di Amore', location: 'Beverly Hills, CA', status: 'For Rent', price: 490000, image: 'assets/images/modern_villa_construction.jpg', gallery: [], beds: 4, baths: 2, area: 2100, overview: 'A stunning Tuscan-style villa that embodies the essence of romance and luxury, featuring vineyards and breathtaking city-to-ocean views.', features: ['Private Vineyard', 'Entertainment Complex', 'Waterfall'], amenities: ['Spa Facility', 'Bowling Alley'] },
+            'the-manor': { title: 'The Manor', location: 'Holmby Hills, LA', status: 'For Investment', price: 482000, image: 'assets/images/luxury_apartment_complex.jpg', gallery: [], beds: 7, baths: 5, area: 3100, overview: 'An opulent French chateau-style mansion, The Manor is a landmark of luxury and elegance in the exclusive Holmby Hills.', features: ['Formal Gardens', 'Beauty Salon', 'Screening Room'], amenities: ['Swimming Pool', 'Tennis Court'] },
+            'the-penthouse': { title: 'The Penthouse', location: 'Upper East Side, NY', status: 'For Sale', price: 298000, image: 'assets/images/corporate_office_interior.jpg', gallery: [], beds: 2, baths: 2, area: 2200, overview: 'A sophisticated penthouse offering unparalleled views of Central Park and the Manhattan skyline, with bespoke interiors and state-of-the-art facilities.', features: ['360-Degree Views', 'Private Elevator', 'Rooftop Terrace'], amenities: ['Concierge Service', 'Fitness Center'] }
         };
 
         const params = new URLSearchParams(window.location.search);
@@ -263,13 +269,15 @@ document.addEventListener('DOMContentLoaded', () => {
             // Re-run the gallery logic specifically for the newly created elements
             const galleryThumbnails = container.querySelectorAll('.property-gallery-thumbnails img');
             const mainImage = container.querySelector('#main-gallery-image img');
-            galleryThumbnails.forEach(thumb => {
-                thumb.addEventListener('click', () => {
-                    mainImage.src = thumb.src;
-                    galleryThumbnails.forEach(t => t.classList.remove('active'));
-                    thumb.classList.add('active');
+            if (galleryThumbnails.length > 0 && mainImage) {
+                galleryThumbnails.forEach(thumb => {
+                    thumb.addEventListener('click', () => {
+                        mainImage.src = thumb.src;
+                        galleryThumbnails.forEach(t => t.classList.remove('active'));
+                        thumb.classList.add('active');
+                    });
                 });
-            });
+            }
         } else {
             container.innerHTML = `<div class="container section"><h1 class="page-title">Property Not Found</h1><p class="page-subtitle">The property you are looking for does not exist.</p></div>`;
         }
