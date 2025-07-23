@@ -1,5 +1,12 @@
 document.addEventListener('DOMContentLoaded', () => {
 
+    // --- FIX FOR PASSWORD RESET & EMAIL CONFIRMATION ---
+    if (window.location.hash.includes('invite_token=') || window.location.hash.includes('recovery_token=')) {
+        if (window.netlifyIdentity) {
+            window.netlifyIdentity.open();
+        }
+    }
+
     // --- All Original, Working Functions (Transitions, Scrollers, etc.) ---
     const overlay = document.createElement('div');
     overlay.classList.add('page-transition-overlay');
@@ -102,27 +109,19 @@ document.addEventListener('DOMContentLoaded', () => {
         yearSpan.textContent = new Date().getFullYear();
     }
 
-    // --- DYNAMIC CONTENT LOADER & FILTERING (WITH GUARDS) ---
-
-    // This is the master function that decides which dynamic content to load.
+    // --- DYNAMIC CONTENT LOADER & FILTERING ---
     function initDynamicContent() {
         const pathname = window.location.pathname;
 
-        // GUARD 1: Only run property grid code if we are on the buy page.
         if (pathname.includes('/buy.html')) {
             loadAndFilterProperties();
-        } 
-        // GUARD 2: Only run property detail code if we are on the detail page.
-        else if (pathname.includes('/property-details.html')) {
+        } else if (pathname.includes('/property-details.html')) {
             loadPropertyDetails();
-        }
-        // GUARD 3: Only run homepage code if we are on the index page.
-        else if (pathname === '/' || pathname.includes('/index.html')) {
+        } else if (pathname === '/' || pathname.includes('/index.html')) {
             loadHomepageContent();
         }
     }
 
-    // A shared function to fetch all properties, used by both pages.
     async function fetchAllProperties() {
         try {
             const response = await fetch('/_data/properties.json');
@@ -150,7 +149,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // --- Logic specifically for buy.html ---
     async function loadAndFilterProperties() {
         const gridContainer = document.getElementById('js-property-grid');
         if (!gridContainer) return;
@@ -188,7 +186,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- Logic specifically for property-details.html ---
     async function loadPropertyDetails() {
         const container = document.getElementById('property-detail-container');
         if (!container) return;
@@ -287,6 +284,5 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Run the master function on page load
     initDynamicContent();
 });
