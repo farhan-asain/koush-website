@@ -1,20 +1,128 @@
 document.addEventListener('DOMContentLoaded', () => {
 
     // --- All Original, Working Functions (Transitions, Scrollers, etc.) ---
-    // ... (This part is unchanged) ...
+    const overlay = document.createElement('div');
+    overlay.classList.add('page-transition-overlay');
+    document.body.appendChild(overlay);
+    const allLinks = document.querySelectorAll('a');
+    allLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            const href = link.getAttribute('href');
+            if (href && href.startsWith('#')) {
+                const hamburger = document.querySelector('.hamburger');
+                const navMenu = document.querySelector('.nav-menu');
+                if (hamburger && hamburger.classList.contains('active')) {
+                    hamburger.classList.remove('active');
+                    navMenu.classList.remove('active');
+                }
+                return;
+            }
+            const isExternal = link.hostname !== window.location.hostname && link.hostname !== "";
+            const opensInNewTab = link.target === '_blank';
+            const isPdf = href && href.endsWith('.pdf');
+            const isSpecialProtocol = href && (href.startsWith('mailto:') || href.startsWith('tel:'));
+            if (!href || isExternal || opensInNewTab || isPdf || isSpecialProtocol) {
+                return;
+            }
+            e.preventDefault();
+            const destination = href;
+            overlay.classList.add('is-active');
+            setTimeout(() => {
+                window.location.href = destination;
+            }, 500);
+        });
+    });
 
-    // --- DYNAMIC CONTENT LOADER & FILTERING ---
-    // New combined function to handle all dynamic content
-    function initDynamicContent() {
-        const pathname = window.location.pathname;
+    const header = document.querySelector('.header');
+    const heroSection = document.querySelector('.hero');
+    if (header && heroSection) {
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) { header.classList.add('header-scrolled'); } 
+            else { header.classList.remove('header-scrolled'); }
+        });
+    }
 
-        if (pathname.includes('/buy.html')) {
-            loadAndFilterProperties();
-        } else if (pathname.includes('/property-details.html')) {
-            loadPropertyDetails();
+    const hamburger = document.querySelector('.hamburger');
+    const navMenu = document.querySelector('.nav-menu');
+    if (hamburger && navMenu) {
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+    }
+
+    const scrollers = document.querySelectorAll('.project-scroller');
+    if (scrollers.length > 0) {
+        if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+            scrollers.forEach(scroller => addAnimation(scroller));
+        }
+    }
+    function addAnimation(scroller) {
+        if (scroller.getAttribute('data-animated')) {
+            const scrollerContent = Array.from(scroller.children);
+            scrollerContent.forEach(item => {
+                const duplicatedItem = item.cloneNode(true);
+                duplicatedItem.setAttribute('aria-hidden', true);
+                scroller.appendChild(duplicatedItem);
+            });
         }
     }
 
+    const slideshow = document.querySelector('.hero-slideshow');
+    if (slideshow) {
+        const slides = slideshow.querySelectorAll('li');
+        if (slides.length > 0) {
+            let currentSlide = 0;
+            slides[0].classList.add('active');
+            setInterval(() => {
+                slides[currentSlide].classList.remove('active');
+                currentSlide = (currentSlide + 1) % slides.length;
+                slides[currentSlide].classList.add('active');
+            }, 5000);
+        }
+    }
+
+    const typingText = document.querySelector('.typing-text');
+    if (typingText) {
+        const words = ["Residential.", "Commercial.", "Industrial.", "Renovations."];
+        let wordIndex = 0, charIndex = 0, isDeleting = false;
+        function typeEffect() {
+            const currentWord = words[wordIndex];
+            const currentChar = isDeleting ? currentWord.substring(0, charIndex - 1) : currentWord.substring(0, charIndex + 1);
+            typingText.textContent = currentChar;
+            if (!isDeleting && charIndex < currentWord.length) { charIndex++; setTimeout(typeEffect, 120); } 
+            else if (isDeleting && charIndex > 0) { charIndex--; setTimeout(typeEffect, 80); } 
+            else { isDeleting = !isDeleting; if (!isDeleting) { wordIndex = (wordIndex + 1) % words.length; } setTimeout(typeEffect, 1200); }
+        }
+        typeEffect();
+    }
+    
+    const yearSpan = document.getElementById('year');
+    if(yearSpan) {
+        yearSpan.textContent = new Date().getFullYear();
+    }
+
+    // --- DYNAMIC CONTENT LOADER & FILTERING (WITH GUARDS) ---
+
+    // This is the master function that decides which dynamic content to load.
+    function initDynamicContent() {
+        const pathname = window.location.pathname;
+
+        // GUARD 1: Only run property grid code if we are on the buy page.
+        if (pathname.includes('/buy.html')) {
+            loadAndFilterProperties();
+        } 
+        // GUARD 2: Only run property detail code if we are on the detail page.
+        else if (pathname.includes('/property-details.html')) {
+            loadPropertyDetails();
+        }
+        // GUARD 3: Only run homepage code if we are on the index page.
+        else if (pathname === '/' || pathname.includes('/index.html')) {
+            loadHomepageContent();
+        }
+    }
+
+    // A shared function to fetch all properties, used by both pages.
     async function fetchAllProperties() {
         try {
             const response = await fetch('/_data/properties.json');
@@ -23,11 +131,26 @@ document.addEventListener('DOMContentLoaded', () => {
             return data.items || [];
         } catch (error) {
             console.error('Error fetching properties:', error);
-            return []; // Return empty array on error
+            return [];
         }
     }
 
-    // --- Logic for buy.html ---
+    async function loadHomepageContent() {
+        if (document.getElementById('welcome-title')) {
+            try {
+                const response = await fetch('/_data/homepage.json');
+                if (!response.ok) return;
+                const data = await response.json();
+                if(data.welcome_title) document.getElementById('welcome-title').textContent = data.welcome_title;
+                if(data.welcome_subheading) document.getElementById('welcome-subheading').textContent = data.welcome_subheading;
+                if(data.welcome_text) document.getElementById('welcome-text').innerHTML = data.welcome_text;
+            } catch (error) {
+                console.log("Homepage content not found, using default text.");
+            }
+        }
+    }
+
+    // --- Logic specifically for buy.html ---
     async function loadAndFilterProperties() {
         const gridContainer = document.getElementById('js-property-grid');
         if (!gridContainer) return;
@@ -39,7 +162,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        gridContainer.innerHTML = ''; // Clear loading message
+        gridContainer.innerHTML = ''; 
         allProperties.forEach(prop => {
             const priceFormatted = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0 }).format(prop.price);
             const cardLink = document.createElement('a');
@@ -65,7 +188,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- Logic for property-details.html ---
+    // --- Logic specifically for property-details.html ---
     async function loadPropertyDetails() {
         const container = document.getElementById('property-detail-container');
         if (!container) return;
@@ -82,7 +205,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const property = allProperties.find(p => p.slug === slug);
 
         if (!property) {
-            container.innerHTML = '<div class="container"><p>Property not found. Please check the URL.</p></div>';
+            container.innerHTML = '<div class="container"><p>Property not found. It may not be published yet.</p></div>';
             return;
         }
         
@@ -103,7 +226,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                 </div>
             </section>
-            <section class="section">
+            <section class="section" style="padding-top: 0;">
                 <div class="container property-detail-layout">
                     <div class="property-detail-main">
                         <h1>${property.title}</h1>
@@ -137,10 +260,9 @@ document.addEventListener('DOMContentLoaded', () => {
                             <p class="sidebar-widget-info">Get in touch for more about this property.</p>
                             <div class="sidebar-agents">
                                 <div class="agent-photos">
-                                    <!-- Add your agent photos here or leave as placeholders -->
-                                    <img src="assets/images/agent1.jpg" alt="Agent 1">
-                                    <img src="assets/images/agent2.jpg" alt="Agent 2">
-                                    <img src="assets/images/agent3.jpg" alt="Agent 3">
+                                    <img src="assets/images/abubaker.webp" alt="Agent 1">
+                                    <img src="assets/images/mohamed.webp" alt="Agent 2">
+                                    <img src="assets/images/mubarak.webp" alt="Agent 3">
                                 </div>
                                 <div class="agent-info">
                                     10+ Featured Agents
@@ -154,7 +276,6 @@ document.addEventListener('DOMContentLoaded', () => {
             </section>
         `;
         
-        // Add click event for gallery thumbnails
         const thumbnails = container.querySelectorAll('.property-gallery-thumbnails img');
         const mainImage = container.querySelector('#main-gallery-image img');
         thumbnails.forEach(thumb => {
