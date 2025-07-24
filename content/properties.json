@@ -27,6 +27,34 @@
         "Covered Parking",
         "En-suite Bathrooms"
       ]
+    },
+    {
+      "baths": 6,
+      "price": 457999,
+      "slug": "marina-vista-luxury-apartment",
+      "area": 10559,
+      "beds": 5,
+      "gallery": [
+        "/assets/images/uploads/waterfront_villa.jpg",
+        "/assets/images/uploads/out_photo5.jpg"
+      ],
+      "status": "For Sale",
+      "location_name": "Dubai Marina",
+      "amenities": [
+        "Swimming Pool",
+        "Gym",
+        "24/7 Security",
+        "Near Metro Station"
+      ],
+      "title": "Marina Vista Luxury Apartment",
+      "overview": "<!--StartFragment-->\n\nExperience modern living in this spacious 3-bedroom apartment situated in the vibrant Dubai Marina. This unit features floor-to-ceiling windows offering stunning views of the Arabian Gulf, a large open-plan living and dining area, and a fully-fitted kitchen with integrated appliances. Residents benefit from exclusive access to premium building facilities, including a state-of-the-art gymnasium and a large outdoor swimming pool. The property is conveniently located within walking distance to the metro station, JBR beach, and a variety of dining and retail options, making it an ideal choice for families and professionals seeking a dynamic urban lifestyle.\n\n<!--EndFragment-->",
+      "image": "/assets/images/uploads/downtown_apartment.jpg",
+      "features": [
+        "Balcony",
+        "Built-in Wardrobes",
+        "Central A/C",
+        "Covered Parking"
+      ]
     }
   ]
 }
