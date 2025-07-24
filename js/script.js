@@ -1,13 +1,15 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    // --- FIX FOR PASSWORD RESET & EMAIL CONFIRMATION ---
-    if (window.location.hash.includes('invite_token=') || window.location.hash.includes('recovery_token=')) {
-        if (window.netlifyIdentity) {
-            window.netlifyIdentity.open();
+    if (window.netlifyIdentity) {
+      window.netlifyIdentity.on('init', user => {
+        if (!user) {
+          window.netlifyIdentity.on('login', () => {
+            document.location.href = '/admin/';
+          });
         }
+      });
     }
 
-    // --- All Original, Working Functions (Transitions, Scrollers, etc.) ---
     const overlay = document.createElement('div');
     overlay.classList.add('page-transition-overlay');
     document.body.appendChild(overlay);
@@ -22,15 +24,11 @@ document.addEventListener('DOMContentLoaded', () => {
             const opensInNewTab = link.target === '_blank';
             const isPdf = href && href.endsWith('.pdf');
             const isSpecialProtocol = href && (href.startsWith('mailto:') || href.startsWith('tel:'));
-            if (!href || isExternal || opensInNewTab || isPdf || isSpecialProtocol) {
-                return;
-            }
+            if (!href || isExternal || opensInNewTab || isPdf || isSpecialProtocol) { return; }
             e.preventDefault();
             const destination = href;
             overlay.classList.add('is-active');
-            setTimeout(() => {
-                window.location.href = destination;
-            }, 500);
+            setTimeout(() => { window.location.href = destination; }, 500);
         });
     });
 
@@ -103,7 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
         yearSpan.textContent = new Date().getFullYear();
     }
 
-    // --- MASTER FUNCTION TO INITIALIZE PAGE-SPECIFIC LOGIC ---
+    // --- DYNAMIC CONTENT LOADER & FILTERING ---
     function initDynamicContent() {
         const pathname = window.location.pathname;
 
@@ -116,11 +114,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // --- SHARED FUNCTION TO FETCH ALL PROPERTIES ---
     async function fetchAllProperties() {
         try {
-            // This is the file that the admin panel will create and update
-            const response = await fetch('/_data/properties.json');
+            // UPDATED PATH
+            const response = await fetch('/content/properties.json');
             if (!response.ok) throw new Error('Could not fetch properties.json');
             const data = await response.json();
             return data.items || [];
@@ -130,11 +127,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // --- LOGIC FOR HOMEPAGE ---
     async function loadHomepageContent() {
         if (document.getElementById('welcome-title')) {
             try {
-                const response = await fetch('/_data/homepage.json');
+                // UPDATED PATH
+                const response = await fetch('/content/homepage.json');
                 if (!response.ok) return;
                 const data = await response.json();
                 if(data.welcome_title) document.getElementById('welcome-title').textContent = data.welcome_title;
@@ -146,7 +143,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // --- LOGIC FOR BUY PAGE ---
     async function loadAndFilterProperties() {
         const gridContainer = document.getElementById('js-property-grid');
         const filterForm = document.getElementById('js-property-filters');
@@ -212,7 +208,6 @@ document.addEventListener('DOMContentLoaded', () => {
         renderProperties(allProperties);
     }
 
-    // --- LOGIC FOR PROPERTY DETAIL PAGE ---
     async function loadPropertyDetails() {
         const container = document.getElementById('property-detail-container');
         if (!container) return;
@@ -305,6 +300,5 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Run the master initializer function
     initDynamicContent();
 });
