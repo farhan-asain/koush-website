@@ -101,7 +101,6 @@ document.addEventListener('DOMContentLoaded', () => {
         yearSpan.textContent = new Date().getFullYear();
     }
 
-    // --- DYNAMIC CONTENT LOADER & FILTERING ---
     function initDynamicContent() {
         const pathname = window.location.pathname;
 
@@ -136,13 +135,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 const data = await response.json();
                 if(data.welcome_title) document.getElementById('welcome-title').textContent = data.welcome_title;
                 if(data.welcome_subheading) document.getElementById('welcome-subheading').textContent = data.welcome_subheading;
-                if(data.welcome_text) document.getElementById('welcome-text').innerHTML = data.welcome_text;
+                if(data.welcome_text && window.marked) document.getElementById('welcome-text').innerHTML = marked.parse(data.welcome_text);
             } catch (error) {
                 console.log("Homepage content not found, using default text.");
             }
         }
     }
-
+    
     async function loadAndFilterProperties() {
         const gridContainer = document.getElementById('js-property-grid');
         const filterForm = document.getElementById('js-property-filters');
