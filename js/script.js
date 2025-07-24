@@ -1,40 +1,30 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    // --- Page Transition Logic & Smooth Scroll Fix ---
+    // --- FIX FOR PASSWORD RESET & EMAIL CONFIRMATION ---
+    if (window.location.hash.includes('invite_token=') || window.location.hash.includes('recovery_token=')) {
+        if (window.netlifyIdentity) {
+            window.netlifyIdentity.open();
+        }
+    }
+
+    // --- All Original, Working Functions (Transitions, Scrollers, etc.) ---
     const overlay = document.createElement('div');
     overlay.classList.add('page-transition-overlay');
     document.body.appendChild(overlay);
-
     const allLinks = document.querySelectorAll('a');
-
     allLinks.forEach(link => {
         link.addEventListener('click', (e) => {
             const href = link.getAttribute('href');
-
-            if (href && href.startsWith('#')) {
-                const hamburger = document.querySelector('.hamburger');
-                const navMenu = document.querySelector('.nav-menu');
-                if (hamburger && hamburger.classList.contains('active')) {
-                    hamburger.classList.remove('active');
-                    navMenu.classList.remove('active');
-                }
-                return;
+            if (href && (href.startsWith('#') || href.includes('property-details.html'))) {
+                return; // Allow default navigation for anchors and detail pages
             }
-            
-            // Allow property detail links to navigate normally
-            if (href && href.includes('property-details.html')) {
-                return;
-            }
-
             const isExternal = link.hostname !== window.location.hostname && link.hostname !== "";
             const opensInNewTab = link.target === '_blank';
             const isPdf = href && href.endsWith('.pdf');
             const isSpecialProtocol = href && (href.startsWith('mailto:') || href.startsWith('tel:'));
-
             if (!href || isExternal || opensInNewTab || isPdf || isSpecialProtocol) {
                 return;
             }
-
             e.preventDefault();
             const destination = href;
             overlay.classList.add('is-active');
@@ -44,7 +34,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // --- Transparent Header on Scroll Logic ---
     const header = document.querySelector('.header');
     const heroSection = document.querySelector('.hero');
     if (header && heroSection) {
@@ -54,7 +43,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- Mobile Menu (Hamburger) Logic ---
     const hamburger = document.querySelector('.hamburger');
     const navMenu = document.querySelector('.nav-menu');
     if (hamburger && navMenu) {
@@ -64,7 +52,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- Infinite Project Scroller Logic ---
     const scrollers = document.querySelectorAll('.project-scroller');
     if (scrollers.length > 0) {
         if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
@@ -82,7 +69,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // --- Hero Slideshow Logic ---
     const slideshow = document.querySelector('.hero-slideshow');
     if (slideshow) {
         const slides = slideshow.querySelectorAll('li');
@@ -97,7 +83,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // --- Typewriter Effect Logic ---
     const typingText = document.querySelector('.typing-text');
     if (typingText) {
         const words = ["Residential.", "Commercial.", "Industrial.", "Renovations."];
@@ -113,96 +98,145 @@ document.addEventListener('DOMContentLoaded', () => {
         typeEffect();
     }
     
-    // --- Dynamic Copyright Year ---
     const yearSpan = document.getElementById('year');
     if(yearSpan) {
         yearSpan.textContent = new Date().getFullYear();
     }
 
-    // --- MASTER FUNCTION TO INITIALIZE PAGE-SPECIFIC LOGIC ---
-    function initPageSpecificLogic() {
+    // --- DYNAMIC CONTENT LOADER & FILTERING ---
+    function initDynamicContent() {
         const pathname = window.location.pathname;
 
         if (pathname.includes('/buy.html')) {
-            initBuyPageFilters();
+            loadAndFilterProperties();
         } else if (pathname.includes('/property-details.html')) {
-            initPropertyDetailPage();
+            loadPropertyDetails();
+        } else if (pathname === '/' || pathname.includes('/index.html')) {
+            loadHomepageContent();
         }
     }
 
-    // --- BUY PAGE: FILTER LOGIC ---
-    function initBuyPageFilters() {
-        const filterForm = document.getElementById('js-property-filters');
-        if (!filterForm) return;
+    async function fetchAllProperties() {
+        try {
+            const response = await fetch('/_data/properties.json');
+            if (!response.ok) throw new Error('Could not fetch properties.json');
+            const data = await response.json();
+            return data.items || [];
+        } catch (error) {
+            console.error('Error fetching properties:', error);
+            return [];
+        }
+    }
 
-        const searchInput = document.getElementById('js-filter-search');
-        const priceInput = document.getElementById('js-filter-price');
-        const locationInput = document.getElementById('js-filter-location');
-        const statusInput = document.getElementById('js-filter-status');
-        const propertyGrid = document.getElementById('js-property-grid');
-        const allProperties = Array.from(propertyGrid.querySelectorAll('.property-grid-card'));
-        const noResultsMessage = document.getElementById('js-no-results-message');
+    async function loadHomepageContent() {
+        if (document.getElementById('welcome-title')) {
+            try {
+                const response = await fetch('/_data/homepage.json');
+                if (!response.ok) return;
+                const data = await response.json();
+                if(data.welcome_title) document.getElementById('welcome-title').textContent = data.welcome_title;
+                if(data.welcome_subheading) document.getElementById('welcome-subheading').textContent = data.welcome_subheading;
+                if(data.welcome_text) document.getElementById('welcome-text').innerHTML = data.welcome_text;
+            } catch (error) {
+                console.log("Homepage content not found, using default text.");
+            }
+        }
+    }
+
+    async function loadAndFilterProperties() {
+        const gridContainer = document.getElementById('js-property-grid');
+        const filterForm = document.getElementById('js-property-filters');
+        if (!gridContainer || !filterForm) return;
+
+        const allProperties = await fetchAllProperties();
+
+        function renderProperties(propertiesToRender) {
+            const noResultsMessage = document.getElementById('js-no-results-message');
+            gridContainer.innerHTML = ''; 
+
+            if (propertiesToRender.length === 0) {
+                 if (allProperties.length > 0) {
+                     noResultsMessage.style.display = 'block';
+                 } else {
+                     gridContainer.innerHTML = '<p>No properties have been published yet. Please add one in the admin panel.</p>';
+                 }
+                 return;
+            }
+            noResultsMessage.style.display = 'none';
+
+            propertiesToRender.forEach(prop => {
+                const priceFormatted = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0 }).format(prop.price);
+                const cardLink = document.createElement('a');
+                cardLink.href = `/property-details.html?property=${prop.slug}`;
+                cardLink.className = 'property-grid-card';
+                cardLink.dataset.name = prop.title.toLowerCase();
+                cardLink.dataset.price = prop.price;
+                cardLink.dataset.location = prop.location_name;
+                cardLink.dataset.status = prop.status;
+                cardLink.innerHTML = `
+                    <div class="grid-card-image">
+                        <img src="${prop.image}" alt="${prop.title}">
+                        <span class="status-badge">${prop.status}</span>
+                    </div>
+                    <div class="grid-card-info">
+                        <p class="location-spec"><ion-icon name="location-outline"></ion-icon> ${prop.location_name}</p>
+                        <h3>${prop.title}</h3>
+                        <ul class="grid-card-stats">
+                            <li><ion-icon name="bed-outline"></ion-icon> ${prop.beds}</li>
+                            <li><ion-icon name="water-outline"></ion-icon> ${prop.baths}</li>
+                            <li><ion-icon name="cube-outline"></ion-icon> ${prop.area} sqft</li>
+                        </ul>
+                        <div class="grid-card-price">${priceFormatted}</div>
+                    </div>
+                `;
+                gridContainer.appendChild(cardLink);
+            });
+        }
 
         function filterProperties() {
+            const searchInput = document.getElementById('js-filter-search');
+            const priceInput = document.getElementById('js-filter-price');
+            const locationInput = document.getElementById('js-filter-location');
+            const statusInput = document.getElementById('js-filter-status');
+
             const searchTerm = searchInput.value.toLowerCase().trim();
             const priceValue = priceInput.value;
             const locationValue = locationInput.value;
             const statusValue = statusInput.value;
-
+            
             let [minPrice, maxPrice] = [0, Infinity];
-            if (priceValue) {
-                [minPrice, maxPrice] = priceValue.split('-').map(Number);
-            }
+            if (priceValue) { [minPrice, maxPrice] = priceValue.split('-').map(Number); }
+            
+            const filtered = allProperties.filter(prop => {
+                const searchMatch = !searchTerm || prop.title.toLowerCase().includes(searchTerm);
+                const priceMatch = !priceValue || (prop.price >= minPrice && prop.price <= maxPrice);
+                const locationMatch = !locationValue || prop.location_name === locationValue;
+                const statusMatch = !statusValue || prop.status === statusValue;
 
-            let visibleCount = 0;
-            allProperties.forEach(prop => {
-                const propData = prop.dataset;
-                const propPrice = Number(propData.price);
-
-                const searchMatch = !searchTerm || propData.name.includes(searchTerm);
-                const priceMatch = !priceValue || (propPrice >= minPrice && propPrice <= maxPrice);
-                const locationMatch = !locationValue || propData.location === locationValue;
-                const statusMatch = !statusValue || propData.status === statusValue;
-
-                if (searchMatch && priceMatch && locationMatch && statusMatch) {
-                    prop.style.display = 'block';
-                    visibleCount++;
-                } else {
-                    prop.style.display = 'none';
-                }
+                return searchMatch && priceMatch && locationMatch && statusMatch;
             });
 
-            noResultsMessage.style.display = visibleCount === 0 ? 'block' : 'none';
+            renderProperties(filtered);
         }
 
-        filterForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            filterProperties();
-        });
-        
-        searchInput.addEventListener('input', filterProperties);
-        priceInput.addEventListener('change', filterProperties);
-        locationInput.addEventListener('change', filterProperties);
-        statusInput.addEventListener('change', filterProperties);
+        filterForm.addEventListener('input', filterProperties);
+        renderProperties(allProperties); // Initial render of all properties
     }
 
-    // --- PROPERTY DETAIL PAGE: DYNAMIC CONTENT LOGIC ---
-    function initPropertyDetailPage() {
+    async function loadPropertyDetails() {
         const container = document.getElementById('property-detail-container');
         if (!container) return;
         
-        const propertyDatabase = {
-            'the-one': { title: 'THE ONE', location: 'Bel Air, LA', status: 'For Investment', price: 690000, image: 'assets/images/waterfront_villa.jpg', gallery: ['assets/images/detail-thumb1.jpg', 'assets/images/detail-thumb2.jpg'], beds: 6, baths: 4, area: 2780, overview: `Introducing The One, a striking 6-bedroom residence designed for both luxury living and smart investment. Located in the prestigious neighborhood of Bel Air, Los Angeles, this 2,780 sqft home features bold modern architecture, open-plan interiors, and refined finishes. With 4 bathrooms, spacious living areas, and curated landscaping, it's a statement of comfort, style, and long-term value.`, features: ['6 Bedrooms & 4 Bathrooms', 'Bold Contemporary Design', 'Professionally Landscaped Garden', 'Spacious Driveway & Garage', 'Investment-Ready Property'], amenities: ['Air Conditioner', 'Washing Machine', 'Internet', 'Water Heater'] },
-            'billionaire-mansion': { title: 'Billionaire Mansion', location: 'Bel Air, LA', status: 'For Sale', price: 500000, image: 'assets/images/downtown_apartment.jpg', gallery: [], beds: 5, baths: 4, area: 3800, overview: 'A magnificent estate that defines modern luxury, offering panoramic city views and unparalleled privacy.', features: ['Infinity Pool', 'Home Theater', '12-Car Garage'], amenities: ['Security System', 'Private Gym'] },
-            'beverly-house': { title: 'The Beverly House', location: 'Beverly Hills, CA', status: 'For Rent', price: 290000, image: 'assets/images/coastal_tower.jpg', gallery: [], beds: 3, baths: 2, area: 1500, overview: 'Historic and iconic, The Beverly House offers a unique blend of classic architecture and modern amenities in the heart of Beverly Hills.', features: ['Grand Ballroom', 'Two-Story Library', 'Tennis Court'], amenities: ['Swimming Pool', 'Manicured Gardens'] },
-            'palazzo-di-amore': { title: 'Palazzo di Amore', location: 'Beverly Hills, CA', status: 'For Rent', price: 490000, image: 'assets/images/modern_villa_construction.jpg', gallery: [], beds: 4, baths: 2, area: 2100, overview: 'A stunning Tuscan-style villa that embodies the essence of romance and luxury, featuring vineyards and breathtaking city-to-ocean views.', features: ['Private Vineyard', 'Entertainment Complex', 'Waterfall'], amenities: ['Spa Facility', 'Bowling Alley'] },
-            'the-manor': { title: 'The Manor', location: 'Holmby Hills, LA', status: 'For Investment', price: 482000, image: 'assets/images/luxury_apartment_complex.jpg', gallery: [], beds: 7, baths: 5, area: 3100, overview: 'An opulent French chateau-style mansion, The Manor is a landmark of luxury and elegance in the exclusive Holmby Hills.', features: ['Formal Gardens', 'Beauty Salon', 'Screening Room'], amenities: ['Swimming Pool', 'Tennis Court'] },
-            'the-penthouse': { title: 'The Penthouse', location: 'Upper East Side, NY', status: 'For Sale', price: 298000, image: 'assets/images/corporate_office_interior.jpg', gallery: [], beds: 2, baths: 2, area: 2200, overview: 'A sophisticated penthouse offering unparalleled views of Central Park and the Manhattan skyline, with bespoke interiors and state-of-the-art facilities.', features: ['360-Degree Views', 'Private Elevator', 'Rooftop Terrace'], amenities: ['Concierge Service', 'Fitness Center'] }
-        };
-
         const params = new URLSearchParams(window.location.search);
         const propertySlug = params.get('property');
-        const property = propertyDatabase[propertySlug];
+        
+        if (!propertySlug) {
+            container.innerHTML = `<div class="container section"><h1 class="page-title">Property Not Found</h1><p class="page-subtitle">No property specified in the URL.</p></div>`;
+            return;
+        }
+
+        const allProperties = await fetchAllProperties();
+        const property = allProperties.find(p => p.slug === propertySlug);
 
         if (property) {
             document.title = `${property.title} | Koush Real Estate`;
@@ -214,7 +248,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="main-image" id="main-gallery-image"><img src="${property.image}" alt="${property.title}"></div>
                     <div class="property-gallery-thumbnails">
                         <img src="${property.image}" alt="Thumbnail 1" class="active">
-                        ${property.gallery.map(img => `<img src="${img}" alt="Thumbnail">`).join('')}
+                        ${(property.gallery || []).map(item => `<img src="${item.image}" alt="Thumbnail">`).join('')}
                     </div>
                 </div>
             </section>
@@ -222,7 +256,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <div class="container property-detail-layout">
                     <div class="property-detail-main">
                         <h1>${property.title.toUpperCase()}</h1>
-                        <p class="location-spec"><ion-icon name="location-outline"></ion-icon> ${property.location}</p>
+                        <p class="location-spec"><ion-icon name="location-outline"></ion-icon> ${property.location_name}</p>
                         <ul class="property-stats grid-card-stats">
                             <li><ion-icon name="bed-outline"></ion-icon> ${property.beds} Beds</li>
                             <li><ion-icon name="water-outline"></ion-icon> ${property.baths} Baths</li>
@@ -230,18 +264,18 @@ document.addEventListener('DOMContentLoaded', () => {
                         </ul>
                         <div class="detail-section">
                             <h2>Overview</h2>
-                            <div class="property-description"><p>${property.overview}</p></div>
+                            <div class="property-description">${marked.parse(property.overview || '')}</div>
                         </div>
                         <div class="detail-section">
                             <h2>Features</h2>
                             <ul class="features-list">
-                                ${property.features.map(f => `<li><ion-icon name="checkmark-circle-outline"></ion-icon> ${f}</li>`).join('')}
+                                ${(property.features || []).map(f => `<li><ion-icon name="checkmark-circle-outline"></ion-icon> ${f.feature}</li>`).join('')}
                             </ul>
                         </div>
                         <div class="detail-section">
                             <h2>Amenities</h2>
                             <div class="amenities-list">
-                                ${property.amenities.map(a => `<span class="amenity-tag">${a}</span>`).join('')}
+                                ${(property.amenities || []).map(a => `<span class="amenity-tag">${a.amenity}</span>`).join('')}
                             </div>
                         </div>
                     </div>
@@ -277,9 +311,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             }
         } else {
-            container.innerHTML = `<div class="container section"><h1 class="page-title">Property Not Found</h1><p class="page-subtitle">The property you are looking for does not exist.</p></div>`;
+            container.innerHTML = `<div class="container section"><h1 class="page-title">Property Not Found</h1><p class="page-subtitle">The property you are looking for does not exist or may not be published yet.</p></div>`;
         }
     }
 
-    initPageSpecificLogic();
+    initDynamicContent();
 });
