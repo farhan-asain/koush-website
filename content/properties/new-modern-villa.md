@@ -1,6 +1,6 @@
 ---
 title: New modern villa
-slug: THE BEST LUXURY
+slug: THE BEST LUXURY villa in ajman...
 location_name: Ajman, Al jurf
 status: For Rent
 price: 45600
