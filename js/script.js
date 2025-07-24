@@ -50,6 +50,19 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // === NEW CODE: CLOSE MOBILE MENU ON LINK CLICK ===
+    const navLinks = document.querySelectorAll('.nav-link');
+    if (navLinks.length > 0) {
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                if (hamburger.classList.contains('active')) {
+                    hamburger.classList.remove('active');
+                    navMenu.classList.remove('active');
+                }
+            });
+        });
+    }
+
     const scrollers = document.querySelectorAll('.project-scroller');
     if (scrollers.length > 0) {
         if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
@@ -251,14 +264,12 @@ document.addEventListener('DOMContentLoaded', () => {
                         <div class="detail-section">
                             <h2>Features</h2>
                             <ul class="features-list">
-                                <!-- === FIX: Changed f.feature to f === -->
                                 ${(property.features || []).map(f => `<li><ion-icon name="checkmark-circle-outline"></ion-icon> ${f}</li>`).join('')}
                             </ul>
                         </div>
                         <div class="detail-section">
                             <h2>Amenities</h2>
                             <div class="amenities-list">
-                                <!-- === FIX: Changed a.amenity to a === -->
                                 ${(property.amenities || []).map(a => `<span class="amenity-tag">${a}</span>`).join('')}
                             </div>
                         </div>
