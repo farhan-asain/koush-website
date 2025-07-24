@@ -114,13 +114,15 @@ document.addEventListener('DOMContentLoaded', () => {
         const pathname = window.location.pathname;
         console.log("CHECKPOINT: Current page pathname is:", pathname);
 
-        if (pathname.includes('/buy.html')) {
-            console.log("CHECKPOINT: Pathname includes '/buy.html'. Calling loadAndFilterProperties().");
+        // === THIS IS THE FIX ===
+        // We now check if the path ENDS WITH /buy OR /buy.html, which is more robust.
+        if (pathname.endsWith('/buy') || pathname.endsWith('/buy.html')) {
+            console.log("CHECKPOINT: Pathname includes '/buy'. Calling loadAndFilterProperties().");
             loadAndFilterProperties();
-        } else if (pathname.includes('/property-details.html')) {
-            console.log("CHECKPOINT: Pathname includes '/property-details.html'. Calling loadPropertyDetails().");
+        } else if (pathname.endsWith('/property-details') || pathname.endsWith('/property-details.html')) {
+            console.log("CHECKPOINT: Pathname includes '/property-details'. Calling loadPropertyDetails().");
             loadPropertyDetails();
-        } else if (pathname === '/' || pathname.includes('/index.html')) {
+        } else if (pathname === '/' || pathname.endsWith('/index.html')) {
             console.log("CHECKPOINT: Pathname is for the homepage. Calling loadHomepageContent().");
             loadHomepageContent();
         } else {
