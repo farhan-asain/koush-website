@@ -15,20 +15,6 @@
         { "image": "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxfDB8MXxyYW5kb218MHx8bHV4dXJ5JTIwaG91c2V8fHx8fHwxNjE3MjE2MzY1&ixlib=rb-1.2.1&q=80&w=1080" },
         { "image": "https://images.unsplash.com/photo-1605276374104-5de67d416180?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxfDB8MXxyYW5kb218MHx8bW9kZXJuJTIwaW50ZXJpb3J8fHx8fHwxNjE3MjE2MzY1&ixlib=rb-1.2.1&q=80&w=1080" }
       ],
-<<<<<<< HEAD
-=======
-      "status": "For Sale",
-      "location_name": "Downtown Dubai",
-      "amenities": [
-        "Gym",
-        "Swimming Pool",
-        "24/7 Security",
-        "Community Garden"
-      ],
-      "title": "Luxury 3-Bed Apartment - Burj Vistaara",
-      "overview": "\n\nDiscover this exquisite 3-bedroom apartment located in the heart of Downtown Dubai, offering unparalleled views of the Burj Khalifa and the Dubai Fountain. This spacious unit features a contemporary design with high-quality finishes, a generous living area, and a fully-equipped modern kitchen. Residents will enjoy access to world-class amenities including a state-of-the-art gym, a temperature-controlled swimming pool, and dedicated parking. Situated just moments away from premium shopping destinations like The Dubai Mall and a variety of gourmet restaurants, this property represents an ideal blend of luxury, convenience, and vibrant city .",
-      "image": "/assets/images/uploads/modern_villa_construction.jpg",
->>>>>>> fdcc0a33db98b890d35fffa8f728314b509b3e16
       "features": [
         { "feature": "6 Bedrooms & 4 Bathrooms" },
         { "feature": "Bold Contemporary Design" },
