@@ -1,7 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    console.log("SUCCESS: DOMContentLoaded event fired. script.js is starting.");
 
-    // --- NETLIFY IDENTITY WIDGET ---
     if (window.netlifyIdentity) {
       window.netlifyIdentity.on('init', user => {
         if (!user) {
@@ -12,7 +10,6 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    // --- PAGE TRANSITION ---
     const overlay = document.createElement('div');
     overlay.classList.add('page-transition-overlay');
     document.body.appendChild(overlay);
@@ -20,7 +17,9 @@ document.addEventListener('DOMContentLoaded', () => {
     allLinks.forEach(link => {
         link.addEventListener('click', (e) => {
             const href = link.getAttribute('href');
-            if (href && (href.startsWith('#') || href.includes('property-details.html'))) { return; }
+            if (href && (href.startsWith('#') || href.includes('property-details.html'))) {
+                return;
+            }
             const isExternal = link.hostname !== window.location.hostname && link.hostname !== "";
             const opensInNewTab = link.target === '_blank';
             const isPdf = href && href.endsWith('.pdf');
@@ -33,7 +32,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // --- HEADER SCROLL ---
     const header = document.querySelector('.header');
     const heroSection = document.querySelector('.hero');
     if (header && heroSection) {
@@ -43,7 +41,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- HAMBURGER MENU ---
     const hamburger = document.querySelector('.hamburger');
     const navMenu = document.querySelector('.nav-menu');
     if (hamburger && navMenu) {
@@ -53,7 +50,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- PROJECT SCROLLER ---
     const scrollers = document.querySelectorAll('.project-scroller');
     if (scrollers.length > 0) {
         if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
@@ -71,7 +67,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // --- HERO SLIDESHOW ---
     const slideshow = document.querySelector('.hero-slideshow');
     if (slideshow) {
         const slides = slideshow.querySelectorAll('li');
@@ -86,7 +81,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // --- HERO TYPING EFFECT ---
     const typingText = document.querySelector('.typing-text');
     if (typingText) {
         const words = ["Residential.", "Commercial.", "Industrial.", "Renovations."];
@@ -102,48 +96,31 @@ document.addEventListener('DOMContentLoaded', () => {
         typeEffect();
     }
     
-    // --- FOOTER YEAR ---
     const yearSpan = document.getElementById('year');
     if(yearSpan) {
         yearSpan.textContent = new Date().getFullYear();
     }
 
-    // --- DYNAMIC CONTENT LOADER ---
     function initDynamicContent() {
-        console.log("CHECKPOINT: initDynamicContent() function is running.");
         const pathname = window.location.pathname;
-        console.log("CHECKPOINT: Current page pathname is:", pathname);
 
-        // === THIS IS THE FIX ===
-        // We now check if the path ENDS WITH /buy OR /buy.html, which is more robust.
         if (pathname.endsWith('/buy') || pathname.endsWith('/buy.html')) {
-            console.log("CHECKPOINT: Pathname includes '/buy'. Calling loadAndFilterProperties().");
             loadAndFilterProperties();
         } else if (pathname.endsWith('/property-details') || pathname.endsWith('/property-details.html')) {
-            console.log("CHECKPOINT: Pathname includes '/property-details'. Calling loadPropertyDetails().");
             loadPropertyDetails();
         } else if (pathname === '/' || pathname.endsWith('/index.html')) {
-            console.log("CHECKPOINT: Pathname is for the homepage. Calling loadHomepageContent().");
             loadHomepageContent();
-        } else {
-            console.log("WARNING: Current path does not match any dynamic content routes.");
         }
     }
 
     async function fetchAllProperties() {
-        console.log("CHECKPOINT: fetchAllProperties() function is running.");
         try {
             const response = await fetch('/content/properties.json');
-            console.log("CHECKPOINT: Fetch response status:", response.status);
-            if (!response.ok) {
-                console.error("ERROR: Response not OK. Could not fetch properties.json. Status:", response.statusText);
-                throw new Error('Could not fetch properties.json');
-            }
+            if (!response.ok) throw new Error('Could not fetch properties.json');
             const data = await response.json();
-            console.log("SUCCESS: Successfully fetched and parsed properties.json. Data:", data);
             return data.items || [];
         } catch (error) {
-            console.error('CRITICAL ERROR in fetchAllProperties:', error);
+            console.error('Error fetching properties:', error);
             return [];
         }
     }
@@ -164,19 +141,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     async function loadAndFilterProperties() {
-        console.log("CHECKPOINT: loadAndFilterProperties() function is running.");
         const gridContainer = document.getElementById('js-property-grid');
         const filterForm = document.getElementById('js-property-filters');
-        if (!gridContainer || !filterForm) {
-            console.error("ERROR: Could not find 'js-property-grid' or 'js-property-filters' on the page. Stopping.");
-            return;
-        }
+        if (!gridContainer || !filterForm) return;
 
         const allProperties = await fetchAllProperties();
-        console.log(`CHECKPOINT: Found ${allProperties.length} properties to render.`);
 
         function renderProperties(propertiesToRender) {
-             console.log(`CHECKPOINT: renderProperties() is running with ${propertiesToRender.length} properties.`);
             const noResultsMessage = document.getElementById('js-no-results-message');
             gridContainer.innerHTML = ''; 
 
@@ -280,13 +251,15 @@ document.addEventListener('DOMContentLoaded', () => {
                         <div class="detail-section">
                             <h2>Features</h2>
                             <ul class="features-list">
-                                ${(property.features || []).map(f => `<li><ion-icon name="checkmark-circle-outline"></ion-icon> ${f.feature}</li>`).join('')}
+                                <!-- === FIX: Changed f.feature to f === -->
+                                ${(property.features || []).map(f => `<li><ion-icon name="checkmark-circle-outline"></ion-icon> ${f}</li>`).join('')}
                             </ul>
                         </div>
                         <div class="detail-section">
                             <h2>Amenities</h2>
                             <div class="amenities-list">
-                                ${(property.amenities || []).map(a => `<span class="amenity-tag">${a.amenity}</span>`).join('')}
+                                <!-- === FIX: Changed a.amenity to a === -->
+                                ${(property.amenities || []).map(a => `<span class="amenity-tag">${a}</span>`).join('')}
                             </div>
                         </div>
                     </div>
@@ -325,9 +298,5 @@ document.addEventListener('DOMContentLoaded', () => {
             container.innerHTML = `<div class="container section"><h1 class="page-title">Property Not Found</h1><p class="page-subtitle">The property you are looking for does not exist or may not be published yet.</p></div>`;
         }
     }
-
-    // --- INITIALIZE THE SCRIPT ---
-    console.log("CHECKPOINT: Script loaded. Calling initDynamicContent() to start the process.");
     initDynamicContent();
-
 });
