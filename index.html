@@ -8,9 +8,14 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    
+    <!-- THIS IS THE FIX: This script connects your site to the Netlify login system -->
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+
     <script src="js/script.js" defer></script>
 </head>
 <body>
+    
     <header class="header">
         <nav class="navbar container">
             <a href="index.html" class="logo"><img src="assets/images/koush_logo.png" alt="Koush Contracting Logo"></a>
@@ -25,6 +30,7 @@
             <div class="hamburger"><span class="bar"></span><span class="bar"></span><span class="bar"></span></div>
         </nav>
     </header>
+
     <main>
         <section id="home" class="hero">
             <ul class="hero-slideshow">
@@ -36,6 +42,7 @@
             </ul>
             <div class="hero-content container"><h1>Where Vision Meets Precision.</h1><p>Engineering the future of <span class="typing-text"></span><span class="cursor"> </span></p><a href="#projects" class="btn">View Our Work</a></div>
         </section>
+
         <section id="about" class="about section">
             <div class="container">
                 <h2 class="section-title">Welcome to Koush</h2>
@@ -45,6 +52,7 @@
                 </div>
             </div>
         </section>
+
         <section id="services" class="offers-section section">
             <div class="container">
                 <h2 class="section-title">Our Featured Offers</h2>
@@ -55,6 +63,7 @@
                 </div>
             </div>
         </section>
+        
         <section id="projects" class="projects section">
             <div class="container"><h2 class="section-title">Our Projects</h2></div>
             <div class="scroller-container">
@@ -67,6 +76,7 @@
                 </div>
             </div>
         </section>
+        
         <section id="why-us" class="why-us section bg-light">
             <div class="container">
                 <h2 class="section-title">Why Choose Us?</h2>
@@ -78,6 +88,7 @@
             </div>
         </section>
     </main>
+
     <footer class="footer">
         <div class="container footer-grid">
             <div class="footer-col footer-col-about"><a href="index.html" class="footer-logo"><img src="assets/images/koush_logo.png" alt="Koush Contracting Logo"></a><p class="footer-about">Building the future with precision and passion. Your trusted partner for all construction needs.</p></div>
@@ -104,6 +115,7 @@
         </div>
         <div class="footer-bottom"><div class="container"><p class="copyright">© <span id="year"></span> Koush Real Estate. All Rights Reserved.</p></div></div>
     </footer>
+    
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </body>
