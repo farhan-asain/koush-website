@@ -1,77 +1,31 @@
 {
   "items": [
     {
-      "title": "The One",
-      "slug": "the-one",
-      "location_name": "Bel Air, LA",
-      "status": "For Investment",
-      "price": 690000,
-      "image": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxfDB8MXxyYW5kb218MHx8bW9kZXJuJTIwaG91c2V8fHx8fHwxNjE3MjE2MzY1&ixlib=rb-1.2.1&q=80&w=1080",
+      "baths": 8,
+      "price": 65400,
+      "slug": "luxury-3bed-apt-burj-vista",
+      "area": 9998,
       "beds": 6,
-      "baths": 4,
-      "area": 2780,
-      "overview": "Introducing The One, a striking 6-bedroom residence designed for both luxury living and smart investment. Located in the prestigious neighborhood of Bel Air, Los Angeles, this 2,780 sq/ft home features bold modern architecture, open-plan interiors, and refined finishes. With 4 bathrooms, spacious living areas, and curated landscaping, it's a statement of comfort, style, and long-term value.",
       "gallery": [
-        { "image": "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxfDB8MXxyYW5kb218MHx8bHV4dXJ5JTIwaG91c2V8fHx8fHwxNjE3MjE2MzY1&ixlib=rb-1.2.1&q=80&w=1080" },
-        { "image": "https://images.unsplash.com/photo-1605276374104-5de67d416180?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxfDB8MXxyYW5kb218MHx8bW9kZXJuJTIwaW50ZXJpb3J8fHx8fHwxNjE3MjE2MzY1&ixlib=rb-1.2.1&q=80&w=1080" }
+        "/assets/images/uploads/out_photo4.jpg",
+        "/assets/images/uploads/ameera_village.jpg"
       ],
-      "features": [
-        { "feature": "6 Bedrooms & 4 Bathrooms" },
-        { "feature": "Bold Contemporary Design" },
-        { "feature": "Professionally Landscaped Garden" },
-        { "feature": "Spacious Driveway & Garage" },
-        { "feature": "Investment-Ready Property" }
-      ],
-      "amenities": [
-        { "amenity": "Air Conditioner" },
-        { "amenity": "Washing Machine" },
-        { "amenity": "Internet" },
-        { "amenity": "Water Heater" }
-      ]
-    },
-    {
-      "title": "Billionaire Mansion",
-      "slug": "billionaire-mansion",
-      "location_name": "Bel Air, LA",
-      "status": "For Sale",
-      "price": 5000000,
-      "image": "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxfDB8MXxyYW5kb218MHx8bW9kZXJuJTIwaG91c2V8fHx8fHwxNjE3MjE2MzY1&ixlib=rb-1.2.1&q=80&w=1080",
-      "beds": 5,
-      "baths": 6,
-      "area": 3800,
-      "overview": "An architectural masterpiece, this mansion offers unparalleled luxury and privacy. With sweeping views and state-of-the-art amenities, it represents the pinnacle of high-end living in Bel Air.",
-      "gallery": [],
-      "features": [
-        { "feature": "Infinity Pool" },
-        { "feature": "Home Theater" },
-        { "feature": "Panoramic City Views" }
-      ],
-      "amenities": [
-        { "amenity": "Pool" },
-        { "amenity": "Gym" },
-        { "amenity": "Sauna" }
-      ]
-    },
-    {
-      "title": "The Beverly House",
-      "slug": "the-beverly-house",
-      "location_name": "Beverly Hills, CA",
       "status": "For Rent",
-      "price": 290000,
-      "image": "https://images.unsplash.com/photo-1568605114967-8130f3a36994?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxfDB8MXxyYW5kb218MHx8bW9kZXJuJTIwaG91c2V8fHx8fHwxNjE3MjE2MzY1&ixlib=rb-1.2.1&q=80&w=1080",
-      "beds": 3,
-      "baths": 2,
-      "area": 1500,
-      "overview": "A beautifully designed modern home available for rent in the heart of Beverly Hills. Perfect for those seeking style and convenience in one of the world's most famous neighborhoods.",
-      "gallery": [],
-      "features": [
-        { "feature": "Open Concept Living" },
-        { "feature": "Gourmet Kitchen" },
-        { "feature": "Private Patio" }
-      ],
+      "location_name": "Downtown Dubai",
       "amenities": [
-        { "amenity": "Central AC" },
-        { "amenity": "Security System" }
+        "Gym",
+        "Swimming Pool",
+        "Concierge Service",
+        "Kids Play Area"
+      ],
+      "title": "Luxury 3-Bed Apartment - Burj Vista",
+      "overview": "<!--StartFragment-->\n\nDiscover this exquisite 3-bedroom apartment located in the heart of Downtown Dubai, offering unparalleled views of the Burj Khalifa and the Dubai Fountain. This spacious unit features a contemporary design with high-quality finishes, a generous living area, and a fully-equipped modern kitchen. Residents will enjoy access to world-class amenities including a state-of-the-art gym, a temperature-controlled swimming pool, and dedicated parking. Situated just moments away from premium shopping destinations like The Dubai Mall and a variety of gourmet restaurants, this property represents an ideal blend of luxury, convenience, and vibrant city living.\n\n<!--EndFragment-->",
+      "image": "/assets/images/uploads/modern_villa_construction.jpg",
+      "features": [
+        "Built-in Wardrobes",
+        "Central A/C",
+        "Covered Parking",
+        "En-suite Bathrooms"
       ]
     }
   ]
