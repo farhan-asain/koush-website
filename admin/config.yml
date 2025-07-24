@@ -1,0 +1,9 @@
+backend:
+  name: git-gateway
+  branch: main
+
+# This is required but will be empty for now
+media_folder: "assets/images/uploads"
+
+# We start with no collections to ensure the panel loads
+collections: []
