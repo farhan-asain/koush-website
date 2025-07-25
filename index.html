@@ -9,7 +9,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins:wght@300;400;600;700;900&display=swap" rel="stylesheet">
     
-    <!-- This script is the only thing needed for the login system to work. -->
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
     
     <script src="js/script.js" defer></script>
@@ -47,6 +46,46 @@
                     <div class="about-text"><h3>Over 10 Years of Excellence</h3><p>Koush Contracting has been a cornerstone of the construction industry, delivering high-quality projects with integrity and precision. Our commitment to excellence is reflected in every structure we build.</p></div>
                     <div class="about-image"><img src="assets/images/secondary.jpg" alt="Modern interior of a Koush Contracting project"></div>
                 </div>
+                <div class="about-extended-grid">
+                    <div class="about-extended-left">
+                        <span class="pre-title">Who We Are</span>
+                        <h3 class="redefining-title">Redefining Excellence in Real Estate</h3>
+                        <p>We specialize in luxury properties, sustainable homes, and vacation rentals — driven by a passion for exceptional living and a commitment to quality, innovation, and client satisfaction.</p>
+                        <div class="stats-grid">
+                            <div class="stat-item">
+                                <h4>100+</h4>
+                                <p>Projects Complete</p>
+                            </div>
+                            <div class="stat-item">
+                                <h4>35+</h4>
+                                <p>Happy Clients</p>
+                            </div>
+                            <div class="stat-item">
+                                <h4>$5M+</h4>
+                                <p>Project Value</p>
+                            </div>
+                            <div class="stat-item">
+                                <h4>45%</h4>
+                                <p>Client Retention Rate</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="about-extended-right">
+                        <img src="assets/images/tag_tag.jpg" alt="Professional real estate team" class="about-extended-image">
+                        <div class="vision-mission-grid">
+                            <div class="vm-card">
+                                <div class="vm-icon"><ion-icon name="eye-outline"></ion-icon></div>
+                                <h5>Our Vision</h5>
+                                <p>To be a leader in the real estate market, offering unparalleled services in luxury, sustainability, and vacation properties.</p>
+                            </div>
+                            <div class="vm-card">
+                                <div class="vm-icon"><ion-icon name="flag-outline"></ion-icon></div>
+                                <h5>Our Mission</h5>
+                                <p>To create exceptional living experiences through innovation, sustainability, and personalized service in modern real estate.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
         <section id="services" class="offers-section section">
@@ -59,22 +98,27 @@
                 </div>
             </div>
         </section>
+        
+        <!-- === PROJECT SECTION STRUCTURE HAS BEEN UPDATED === -->
         <section id="projects" class="projects section">
-            <div class="container"><h2 class="section-title">Our Projects</h2></div>
-            <div class="scroller-container">
-                <div class="project-scroller" data-animated="true">
-                    <div class="project-card"><img src="assets/images/modern_villa_construction.jpg" alt="Modern Villa Construction"><div class="project-info"><h3>Modern Villa Construction</h3><p>A stunning residential project showcasing minimalist design.</p></div></div>
-                    <div class="project-card"><img src="assets/images/downtown_commercial_tower.jpg" alt="Downtown Commercial Tower"><div class="project-info"><h3>Downtown Commercial Tower</h3><p>A 20-story commercial hub with state-of-the-art facilities.</p></div></div>
-                    <div class="project-card"><img src="assets/images/luxury_apartment_complex.jpg" alt="Luxury Apartment Complex"><div class="project-info"><h3>Luxury Apartment Complex</h3><p>High-end residential units with premium amenities.</p></div></div>
-                    <div class="project-card"><img src="assets/images/retail_space_renovation.jpg" alt="Retail Space Renovation"><div class="project-info"><h3>Retail Space Renovation</h3><p>Complete overhaul of a downtown retail storefront.</p></div></div>
-                    <div class="project-card"><img src="assets/images/corporate_office_interior.jpg" alt="Corporate Office Interior"><div class="project-info"><h3>Corporate Office Interior</h3><p>Modern and functional office space design.</p></div></div>
+            <div class="container">
+                <h2 class="section-title">Our Projects</h2>
+                <div class="project-grid-container-homepage">
+                    <div class="project-grid-preview">
+                        <div class="project-card"><img src="assets/images/modern_villa_construction.jpg" alt="Modern Villa Construction"><div class="project-info"><h3>Modern Villa Construction</h3><p>A stunning residential project showcasing minimalist design.</p></div></div>
+                        <div class="project-card"><img src="assets/images/downtown_commercial_tower.jpg" alt="Downtown Commercial Tower"><div class="project-info"><h3>Downtown Commercial Tower</h3><p>A 20-story commercial hub with state-of-the-art facilities.</p></div></div>
+                        <div class="project-card"><img src="assets/images/luxury_apartment_complex.jpg" alt="Luxury Apartment Complex"><div class="project-info"><h3>Luxury Apartment Complex</h3><p>High-end residential units with premium amenities.</p></div></div>
+                        <div class="project-card"><img src="assets/images/retail_space_renovation.jpg" alt="Retail Space Renovation"><div class="project-info"><h3>Retail Space Renovation</h3><p>Complete overhaul of a downtown retail storefront.</p></div></div>
+                        <div class="project-card"><img src="assets/images/corporate_office_interior.jpg" alt="Corporate Office Interior"><div class="project-info"><h3>Corporate Office Interior</h3><p>Modern and functional office space design.</p></div></div>
+                        <div class="project-card"><img src="assets/images/downtown_commercial_tower.jpg" alt="Suburban Family Home"><div class="project-info"><h3>Suburban Family Home</h3><p>A beautiful home combining comfort with modern aesthetics.</p></div></div>
+                    </div>
+                    <div class="view-more-container">
+                        <a href="buy.html" class="btn">View More...</a>
+                    </div>
                 </div>
             </div>
-            <!-- === NEW BUTTON ADDED HERE === -->
-            <div class="view-more-container">
-                <a href="buy.html" class="btn">View More...</a>
-            </div>
         </section>
+        
         <section id="why-us" class="why-us section bg-light">
             <div class="container">
                 <h2 class="section-title">Why Choose Us?</h2>
