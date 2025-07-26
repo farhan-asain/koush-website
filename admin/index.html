@@ -5,26 +5,37 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Koush Content Manager</title>
   
-  <!-- Step 1: Load React. This is the most critical fix for your error. -->
-  <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
-  <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
-
-  <!-- Step 2: Load the CMS App -->
+  <!-- The order here is critical and has been corrected -->
+  <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
   <script src="https://unpkg.com/netlify-cms-app@^2.0.0/dist/netlify-cms-app.js"></script>
-  
-  <!-- Step 3: Load Firebase Libraries -->
-  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-firestore.js"></script>
-  
-  <!-- Step 4: Load Your Specific Firebase Config. Note the absolute path. -->
-  <script src="/js/firebase-config.js"></script> 
-  
-  <!-- Step 5: Initialize the CMS -->
-  <script>
-    window.CMS.init();
-  </script>
 </head>
 <body>
+  <!-- This script initializes the CMS with your Firebase config -->
+  <script>
+    // Load Firebase libraries dynamically
+    function loadScript(src) {
+      return new Promise(function (resolve, reject) {
+        var script = document.createElement('script');
+        script.src = src;
+        script.onload = resolve;
+        script.onerror = reject;
+        document.head.appendChild(script);
+      });
+    }
+
+    Promise.all([
+      loadScript("https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"),
+      loadScript("https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"),
+      loadScript("https://www.gstatic.com/firebasejs/8.6.8/firebase-firestore.js")
+    ]).then(function () {
+      return loadScript("/js/firebase-config.js");
+    }).then(function () {
+      console.log("Firebase initialized, now initializing CMS.");
+      window.CMS.init();
+    }).catch(function (error) {
+      console.error("Failed to load necessary scripts:", error);
+    });
+  </script>
 </body>
 </html>
