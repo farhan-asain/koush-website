@@ -5,11 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Koush Content Manager</title>
   
-  <!-- Step 1: Load React and React DOM libraries FIRST. This is the crucial fix. -->
-  <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
-  <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+  <!-- Step 1: Load React. This is the most critical fix for your error. -->
+  <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
 
-  <!-- Step 2: Load the Netlify CMS App script -->
+  <!-- Step 2: Load the CMS App -->
   <script src="https://unpkg.com/netlify-cms-app@^2.0.0/dist/netlify-cms-app.js"></script>
   
   <!-- Step 3: Load Firebase Libraries -->
@@ -20,7 +20,7 @@
   <!-- Step 4: Load Your Specific Firebase Config. Note the absolute path. -->
   <script src="/js/firebase-config.js"></script> 
   
-  <!-- Step 5: Initialize the CMS. This ensures everything above has loaded. -->
+  <!-- Step 5: Initialize the CMS -->
   <script>
     window.CMS.init();
   </script>

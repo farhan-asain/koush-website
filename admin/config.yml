@@ -9,9 +9,9 @@ media_folder: "assets/images/uploads"
 public_folder: "/assets/images/uploads"
 
 collections:
-  - name: "properties" # This must match your Firestore collection name
+  - name: "properties"
     label: "Property"
-    folder: "properties" # This is a logical name, not a real folder
+    folder: "properties" 
     create: true
     fields:
       - {label: "Property Name", name: "title", widget: "string"}
