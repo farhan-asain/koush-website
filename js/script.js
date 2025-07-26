@@ -1,40 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    if (window.netlifyIdentity) {
-      window.netlifyIdentity.on('init', user => {
-        if (!user) {
-          window.netlifyIdentity.on('login', () => {
-            document.location.href = '/admin/';
-          });
-        }
-      });
-    }
-
-    const overlay = document.createElement('div');
-    overlay.classList.add('page-transition-overlay');
-    document.body.appendChild(overlay);
-    const allLinks = document.querySelectorAll('a');
-    allLinks.forEach(link => {
-        link.addEventListener('click', (e) => {
-            const href = link.getAttribute('href');
-            if (href && (href.startsWith('#') || href.includes('property-details.html'))) {
-                return;
-            }
-            const isExternal = link.hostname !== window.location.hostname && link.hostname !== "";
-            const opensInNewTab = link.target === '_blank';
-            const isPdf = href && href.endsWith('.pdf');
-            const isSpecialProtocol = href && (href.startsWith('mailto:') || href.startsWith('tel:'));
-            if (!href || isExternal || opensInNewTab || isPdf || isSpecialProtocol) { return; }
-            e.preventDefault();
-            const destination = href;
-            overlay.classList.add('is-active');
-            setTimeout(() => { window.location.href = destination; }, 500);
-        });
-    });
-
     const header = document.querySelector('.header');
-    const heroSection = document.querySelector('.hero');
-    if (header && heroSection) {
+    if (header) {
         window.addEventListener('scroll', () => {
             if (window.scrollY > 50) { header.classList.add('header-scrolled'); } 
             else { header.classList.remove('header-scrolled'); }
@@ -49,8 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
             navMenu.classList.toggle('active');
         });
     }
-
-    // === NEW CODE: CLOSE MOBILE MENU ON LINK CLICK ===
+    
     const navLinks = document.querySelectorAll('.nav-link');
     if (navLinks.length > 0) {
         navLinks.forEach(link => {
@@ -61,23 +27,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
         });
-    }
-
-    const scrollers = document.querySelectorAll('.project-scroller');
-    if (scrollers.length > 0) {
-        if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-            scrollers.forEach(scroller => addAnimation(scroller));
-        }
-    }
-    function addAnimation(scroller) {
-        if (scroller.getAttribute('data-animated')) {
-            const scrollerContent = Array.from(scroller.children);
-            scrollerContent.forEach(item => {
-                const duplicatedItem = item.cloneNode(true);
-                duplicatedItem.setAttribute('aria-hidden', true);
-                scroller.appendChild(duplicatedItem);
-            });
-        }
     }
 
     const slideshow = document.querySelector('.hero-slideshow');
@@ -113,51 +62,32 @@ document.addEventListener('DOMContentLoaded', () => {
     if(yearSpan) {
         yearSpan.textContent = new Date().getFullYear();
     }
-
-    function initDynamicContent() {
-        const pathname = window.location.pathname;
-
-        if (pathname.endsWith('/buy') || pathname.endsWith('/buy.html')) {
-            loadAndFilterProperties();
-        } else if (pathname.endsWith('/property-details') || pathname.endsWith('/property-details.html')) {
-            loadPropertyDetails();
-        } else if (pathname === '/' || pathname.endsWith('/index.html')) {
-            loadHomepageContent();
-        }
-    }
-
+    
     async function fetchAllProperties() {
         try {
-            const response = await fetch('/content/properties.json');
-            if (!response.ok) throw new Error('Could not fetch properties.json');
-            const data = await response.json();
-            return data.items || [];
+            const db = firebase.firestore();
+            const snapshot = await db.collection('properties').get();
+            if (snapshot.empty) {
+                console.log('No properties found in Firestore.');
+                return [];
+            }
+            const properties = snapshot.docs.map(doc => ({
+                id: doc.id,
+                ...doc.data()
+            }));
+            return properties;
         } catch (error) {
-            console.error('Error fetching properties:', error);
+            console.error('Error fetching properties from Firestore:', error);
             return [];
         }
     }
 
-    async function loadHomepageContent() {
-        if (document.getElementById('welcome-title')) {
-            try {
-                const response = await fetch('/content/homepage.json');
-                if (!response.ok) return;
-                const data = await response.json();
-                if(data.welcome_title) document.getElementById('welcome-title').textContent = data.welcome_title;
-                if(data.welcome_subheading) document.getElementById('welcome-subheading').textContent = data.welcome_subheading;
-                if(data.welcome_text && window.marked) document.getElementById('welcome-text').innerHTML = marked.parse(data.welcome_text);
-            } catch (error) {
-                console.log("Homepage content not found, using default text.");
-            }
-        }
-    }
-    
     async function loadAndFilterProperties() {
         const gridContainer = document.getElementById('js-property-grid');
         const filterForm = document.getElementById('js-property-filters');
         if (!gridContainer || !filterForm) return;
 
+        gridContainer.innerHTML = '<p>Loading properties...</p>';
         const allProperties = await fetchAllProperties();
 
         function renderProperties(propertiesToRender) {
@@ -217,7 +147,7 @@ document.addEventListener('DOMContentLoaded', () => {
         filterForm.addEventListener('input', filterProperties);
         renderProperties(allProperties);
     }
-
+    
     async function loadPropertyDetails() {
         const container = document.getElementById('property-detail-container');
         if (!container) return;
@@ -229,7 +159,8 @@ document.addEventListener('DOMContentLoaded', () => {
             container.innerHTML = `<div class="container section"><h1 class="page-title">Property Not Found</h1><p class="page-subtitle">No property specified in the URL.</p></div>`;
             return;
         }
-
+        
+        container.innerHTML = '<p>Loading property details...</p>';
         const allProperties = await fetchAllProperties();
         const property = allProperties.find(p => p.slug === propertySlug);
 
@@ -243,7 +174,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="main-image" id="main-gallery-image"><img src="${property.image}" alt="${property.title}"></div>
                     <div class="property-gallery-thumbnails">
                         <img src="${property.image}" alt="Thumbnail 1" class="active">
-                        ${(property.gallery || []).map(item => `<img src="${item.image}" alt="Thumbnail">`).join('')}
+                        ${(property.gallery || []).map(item => `<img src="${item.image || item}" alt="Thumbnail">`).join('')}
                     </div>
                 </div>
             </section>
@@ -309,5 +240,18 @@ document.addEventListener('DOMContentLoaded', () => {
             container.innerHTML = `<div class="container section"><h1 class="page-title">Property Not Found</h1><p class="page-subtitle">The property you are looking for does not exist or may not be published yet.</p></div>`;
         }
     }
+
+    // Function to decide which content to load based on the page
+    function initDynamicContent() {
+        const pathname = window.location.pathname;
+
+        if (pathname.endsWith('/buy') || pathname.endsWith('/buy.html')) {
+            loadAndFilterProperties();
+        } else if (pathname.endsWith('/property-details') || pathname.endsWith('/property-details.html')) {
+            loadPropertyDetails();
+        }
+    }
+
+    // Run the initialization
     initDynamicContent();
 });

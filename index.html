@@ -9,11 +9,18 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins:wght@300;400;600;700;900&display=swap" rel="stylesheet">
     
-    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    <!-- Firebase Libraries -->
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-firestore.js"></script>
+    
+    <!-- Your Firebase Config -->
+    <script src="js/firebase-config.js"></script>
     
     <script src="js/script.js" defer></script>
 </head>
 <body>
+    <!-- Rest of your body content remains the same... -->
     <header class="header">
         <nav class="navbar container">
             <a href="index.html" class="logo"><img src="assets/images/koush_logo.png" alt="Koush Contracting Logo"></a>
@@ -154,7 +161,6 @@
         <div class="footer-bottom">
             <div class="container">
                 <p class="copyright">© <span id="year"></span> Koush Real Estate. All Rights Reserved.</p>
-                <!-- === NEW ADMIN LOGIN BUTTON === -->
                 <a href="/admin/" class="admin-login-btn">Login as Admin</a>
             </div>
         </div>
